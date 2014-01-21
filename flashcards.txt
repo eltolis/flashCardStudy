@@ -1,0 +1,5 @@
+example: some definition
+item1: value1
+item2: this is just an example
+hint: always put each pair on new line
+hint2: always put colon between item and value
