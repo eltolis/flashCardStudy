@@ -13,8 +13,8 @@ You need to have both files ('flashCardStudy.xx.py', 'flashcards.txt') in the sa
 The flash cards go into the file 'flashcards.txt'. There are few examples in there so you can
 see how it is structured. 
 
-flashcard.txt
--------------
+flashcards.txt
+--------------
 Basicly each flash card needs to be on new line. In the real world
 flash card has two sides, one with the word and the other with the definition. Front side is on the left,
 the it's followed by colon (':') separator.
