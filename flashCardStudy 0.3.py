@@ -13,6 +13,7 @@ import random
 import sys
 import string
 import tty
+import os
 
 def study(cards):
 	
@@ -28,6 +29,8 @@ def study(cards):
 		else:
 			reveal = cards [randompick]
 			print "\n", randompick.upper(), "=", reveal
+			hit = ord(sys.stdin.read(1))
+			os.system('cls' if os.name=='nt' else 'clear')
 
 tty.setcbreak(sys.stdin)
 
