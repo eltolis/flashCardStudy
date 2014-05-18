@@ -1,0 +1,9 @@
+setup.cfg
+setup.py
+flashCardStudy.egg-info/PKG-INFO
+flashCardStudy.egg-info/SOURCES.txt
+flashCardStudy.egg-info/dependency_links.txt
+flashCardStudy.egg-info/entry_points.txt
+flashCardStudy.egg-info/top_level.txt
+flashCardStudy.egg-info/zip-safe
+flashcardstudy/__init__.py
