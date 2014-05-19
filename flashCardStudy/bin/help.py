@@ -2,7 +2,9 @@ def gethelp():
 	print """
 	-help: See this screen
 
-	args(stackname(s)): Pass stack files (*.stk) from current dir to launch the program.
+		python flashcard.py [stackname][-args]
+
+	You need to pass stackname (*.stk) with these arguments:
 	-r, --random: Will display cards in random order (stacks are always in order)
 	-s, --stack: Stacks are random as well (only with multiple stacks)
 	-n, --new: Create new stack

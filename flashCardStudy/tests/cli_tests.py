@@ -2,6 +2,7 @@ import os
 from nose.tools import *
 from bin import newstack, newcard, checkstacks, errors, cliparser
 
+# STORAGE OBJECT tests (newcard, newstack)
 def test_stack_object():
 	test_stack = newstack.Stack(1, 'Test Stack')
 	assert_equal(test_stack.id, 1)
@@ -11,21 +12,64 @@ def test_card_object():
 	test_card = newcard.Card(1)
 	assert_equal(test_card.id, 1)
 
+# DATA TESTS (checkstacks)
 def test_lookup_stack_files():
 	#path = os.path.join('flashCardStudy', 'bin')
 	path = os.path.join(os.getcwd(), 'bin')
 	assert_equal(path, '/Volumes/DATA HD/Github/flashCardStudy/flashCardStudy/bin')
 	os.chdir(path)
-	assert_equal(checkstacks.lookup_stack_files(), ['stack.stk'])
+	assert_equal(checkstacks.lookup_stack_files(),['example.stk','stack.stk'])
 	os.chdir('/Volumes/DATA HD/Github/flashCardStudy/flashCardStudy')
 
-def test_parser_single_arg():
-	assert_equal(cliparser.parse(['-n']), ['-n'])
+# PARSER TESTS (cliparser)
+def test_parser_with_no_arg():
+	assert_raises(SystemExit, cliparser.parse, '-r')
+	assert_raises(SystemExit, cliparser.parse, ' ')
 
-def test_parser_multiple_args():
-	cliparser.passed_args = []
-	assert_equal(cliparser.parse(['-r', '-s']),['-r', '-s'])
+def test_parser_with_single_type_arg():
+	assert_equal(cliparser.parse(['--list']), [[],['--list']])
 
-def test_parser_fails():
+def test_parser_with_invalid_arg():
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk','-q'])
+
+def test_parser_with_files_only():
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk'])
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk','notes.stk'])
+
+def test_parser_with_invalid_file():
+	assert_raises(SystemExit, cliparser.parse, ['notes.stk','-r'])
+
+def test_parser_with_valid_file():
+	cliparser.passed_files = [] 
 	cliparser.passed_args = []
-	assert_raises(SystemExit, cliparser.parse, ['-n', '-v'])
+	cliparser.output = []
+	path = os.path.join(os.getcwd(), 'bin')
+	os.chdir(path)
+	assert_equal(cliparser.parse(['stack.stk', '-r']), [['stack.stk'],['-r']])
+
+def test_parser_with_valid_file_and_args():
+	cliparser.passed_files = [] 
+	cliparser.passed_args = []
+	cliparser.output = []
+	assert_equal(cliparser.parse(['stack.stk', '-r', '-s', '-v']),[['stack.stk'],['-r', '-s', '-v']])
+
+def test_parser_with_valid_file_and_invalid_arg():
+	cliparser.passed_files = [] 
+	cliparser.passed_args = []
+	cliparser.output = []
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-r', '-s', '-fail'])
+
+def test_parser_with_invalid_single_type_arg():
+	cliparser.passed_files = [] 
+	cliparser.passed_args = []
+	cliparser.output = []
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-r', '--author'])
+	cliparser.passed_files = [] 
+	cliparser.passed_args = []
+	cliparser.output = []
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'example.stk', '-r', '--author'])
+	cliparser.passed_files = [] 
+	cliparser.passed_args = []
+	cliparser.output = []
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'fail.stk', '-e', '--list'])
+	os.chdir('/Volumes/DATA HD/Github/flashCardStudy/flashCardStudy')
