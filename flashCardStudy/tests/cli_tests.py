@@ -2,6 +2,12 @@ import os
 from nose.tools import *
 from bin import newstack, newcard, checkstacks, errors, cliparser
 
+# empties out lists in parser
+def parser_cleanup():
+	cliparser.passed_files = [] 
+	cliparser.passed_args = []
+	cliparser.output = []
+
 # STORAGE OBJECT tests (newcard, newstack)
 def test_stack_object():
 	test_stack = newstack.Stack(1, 'Test Stack')
@@ -23,11 +29,17 @@ def test_lookup_stack_files():
 
 # PARSER TESTS (cliparser)
 def test_parser_with_no_arg():
+	parser_cleanup()
 	assert_raises(SystemExit, cliparser.parse, '-r')
 	assert_raises(SystemExit, cliparser.parse, ' ')
 
 def test_parser_with_single_type_arg():
+	parser_cleanup()
 	assert_equal(cliparser.parse(['--list']), [[],['--list']])
+	
+def test_parser_with_single_type_arg_and_file():
+	parser_cleanup()
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-n'])
 
 def test_parser_with_invalid_arg():
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk','-q'])
@@ -40,36 +52,26 @@ def test_parser_with_invalid_file():
 	assert_raises(SystemExit, cliparser.parse, ['notes.stk','-r'])
 
 def test_parser_with_valid_file():
-	cliparser.passed_files = [] 
-	cliparser.passed_args = []
-	cliparser.output = []
+	parser_cleanup()
 	path = os.path.join(os.getcwd(), 'bin')
 	os.chdir(path)
 	assert_equal(cliparser.parse(['stack.stk', '-r']), [['stack.stk'],['-r']])
 
 def test_parser_with_valid_file_and_args():
-	cliparser.passed_files = [] 
-	cliparser.passed_args = []
-	cliparser.output = []
+	parser_cleanup()
 	assert_equal(cliparser.parse(['stack.stk', '-r', '-s', '-v']),[['stack.stk'],['-r', '-s', '-v']])
 
 def test_parser_with_valid_file_and_invalid_arg():
-	cliparser.passed_files = [] 
-	cliparser.passed_args = []
-	cliparser.output = []
+	parser_cleanup()
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-r', '-s', '-fail'])
 
 def test_parser_with_invalid_single_type_arg():
-	cliparser.passed_files = [] 
-	cliparser.passed_args = []
-	cliparser.output = []
+	parser_cleanup()
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-r', '--author'])
-	cliparser.passed_files = [] 
-	cliparser.passed_args = []
-	cliparser.output = []
+	parser_cleanup()
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'example.stk', '-r', '--author'])
-	cliparser.passed_files = [] 
-	cliparser.passed_args = []
-	cliparser.output = []
+	parser_cleanup()
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'fail.stk', '-e', '--list'])
 	os.chdir('/Volumes/DATA HD/Github/flashCardStudy/flashCardStudy')
+
+# PROCESSOR TESTS

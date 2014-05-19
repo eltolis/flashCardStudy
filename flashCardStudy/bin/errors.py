@@ -16,6 +16,10 @@ Use `-help` to see more."""
 		error = """
 Error! You must append argument to launch the program.
 Use `-help` to see more."""
+	elif num == 4:
+		error = """
+Error! Don't use this argument with file(s).
+Use `-help` to see more."""
 
 	print error
 	exit(0)
