@@ -1,31 +1,67 @@
+import sys
+import StringIO
+import glob
 import os
 from nose.tools import *
-from bin import newstack, newcard, checkstacks, errors, cliparser
+import mock
+import json
+from flashcardstudy import stack, errors, cliparser, stack
 
-# empties out lists in parser
+	
 def parser_cleanup():
 	cliparser.passed_files = [] 
 	cliparser.passed_args = []
 	cliparser.output = []
 
-# STORAGE OBJECT tests (newcard, newstack)
-def test_stack_object():
-	test_stack = newstack.Stack(1, 'Test Stack')
-	assert_equal(test_stack.id, 1)
-	assert_equal(test_stack.name, 'Test Stack')
+def files_cleanup():
+	files = stack.lookup_stack_files()
+	for file in files:
+		truncfile = open(file, 'w')
+		truncfile.truncate()
+		truncfile.close()
 
-def test_card_object():
-	test_card = newcard.Card(1)
-	assert_equal(test_card.id, 1)
+def delete_files():
+	files = glob.glob('*.stk')
+	for file in files:
+		os.remove(file)
 
-# DATA TESTS (checkstacks)
+def create_test_files():
+	f1 = open('example.stk','w')
+	f2 = open('stack.stk','w')
+	f1.close()
+	f2.close()
+
+# DATA TESTS (stack)
+
 def test_lookup_stack_files():
-	#path = os.path.join('flashCardStudy', 'bin')
-	path = os.path.join(os.getcwd(), 'bin')
-	assert_equal(path, '/Volumes/DATA HD/Github/flashCardStudy/flashCardStudy/bin')
-	os.chdir(path)
-	assert_equal(checkstacks.lookup_stack_files(),['example.stk','stack.stk'])
-	os.chdir('/Volumes/DATA HD/Github/flashCardStudy/flashCardStudy')
+	create_test_files()
+	assert_equal(stack.lookup_stack_files(),['example.stk','stack.stk'])
+	delete_files()
+
+
+def test_request_file_info():
+	sys.stdin = StringIO.StringIO('1\nexample\nno\n')
+	assert_equal(stack.requests(), (1, 'example', {}))
+
+def test_new_stack_file():
+	sys.stdin = StringIO.StringIO('1\nexample\nno\n')
+	stack.new_stack_file()
+	assert_equal(stack.lookup_stack_files(), ['example.stk'])
+	delete_files()
+
+#def test_get_list_of_stack_files():
+	#files_cleanup()
+	#data = ['one', 'two', 3, 4]
+	#f = open('example.stk','w')
+	#json.dumps(data, f)
+	#f.close()
+	#data2 = ['one', 'two', 3, 4]
+	#f2 = open('stack.stk','w')
+	#json.dumps(data, f2)
+	#f2.close()
+	#assert_equal(stack.read_stack_files(), data)
+	#assert_equal(stack.read_stack_files(), data2)
+
 
 # PARSER TESTS (cliparser)
 def test_parser_with_no_arg():
@@ -50,16 +86,18 @@ def test_parser_with_files_only():
 
 def test_parser_with_invalid_file():
 	assert_raises(SystemExit, cliparser.parse, ['notes.stk','-r'])
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk','notes.stk','-r'])
+	assert_raises(SystemExit, cliparser.parse, ['fail.stk', '-v'])
 
 def test_parser_with_valid_file():
 	parser_cleanup()
-	path = os.path.join(os.getcwd(), 'bin')
-	os.chdir(path)
+	create_test_files()
 	assert_equal(cliparser.parse(['stack.stk', '-r']), [['stack.stk'],['-r']])
 
 def test_parser_with_valid_file_and_args():
 	parser_cleanup()
 	assert_equal(cliparser.parse(['stack.stk', '-r', '-s', '-v']),[['stack.stk'],['-r', '-s', '-v']])
+	delete_files()
 
 def test_parser_with_valid_file_and_invalid_arg():
 	parser_cleanup()
@@ -72,6 +110,6 @@ def test_parser_with_invalid_single_type_arg():
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'example.stk', '-r', '--author'])
 	parser_cleanup()
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'fail.stk', '-e', '--list'])
-	os.chdir('/Volumes/DATA HD/Github/flashCardStudy/flashCardStudy')
 
 # PROCESSOR TESTS
+

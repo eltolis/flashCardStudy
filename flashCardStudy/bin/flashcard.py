@@ -1,10 +1,8 @@
-#Command line interface for flashCardStudy
-
 import sys
-import errors
-from help import gethelp
-from cliparser import parse, ARGS
-from processor import processor
+from flashcardstudy import errors 
+from flashcardstudy.help import gethelp
+from flashcardstudy.cliparser import parse, ARGS
+from flashcardstudy.processor import processor
 
 if len(sys.argv) == 1:
 	errors.id(0)

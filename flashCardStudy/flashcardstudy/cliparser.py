@@ -1,6 +1,6 @@
 import re
 import errors
-from checkstacks import get_valid_files
+from stack import get_valid_files
 
 ARGS = [
 		'-r', '--random', # 0,1
@@ -13,8 +13,8 @@ ARGS = [
 		'-o', '--order', # 14, 15
 		'--author'] # 16
 
-single_args = [ARGS[4],ARGS[5],ARGS[6],ARGS[7],
-				ARGS[12], ARGS[13], ARGS[14], ARGS[15],ARGS[16]]
+single_args = [ARGS[4],ARGS[5],ARGS[12], ARGS[13], 
+			ARGS[14], ARGS[15],ARGS[16]]
 
 
 passed_files = []
