@@ -1,5 +1,6 @@
 from cliparser import ARGS
 from stack import new_stack_file
+from display import display
 
 #functions = {
 		#ARGS[0]: random(stack=False),
@@ -35,4 +36,5 @@ def processor(arguments):
 		#elif ARGS[16] in operation:
 			#gethelp.author()
 	else:
-		pass
+		if ARGS[17] in operation or ARGS[18] in operation:
+			display(files)

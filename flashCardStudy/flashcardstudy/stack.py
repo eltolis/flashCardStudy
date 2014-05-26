@@ -1,7 +1,7 @@
 import os
 import glob
-import json
-import errors
+import pickle
+from flashcardstudy import errors, card
 
 class StackFile(object):
 
@@ -35,14 +35,15 @@ class Helpers(object):
 			prompt = raw_input("Add cards to stack? Y/N\n")
 
 			if 'Y' in prompt or 'y' in prompt:
-				card.add_card(a_stack)
+				cards = card.add_card()
 			else:
-				return {} 
+				cards = {}
+
+			return cards
 		
 
 request = Helpers()
 
-stackfiles = []
 
 def lookup_stack_files():
 	stack_files = glob.glob('*.stk')
@@ -53,15 +54,16 @@ def get_valid_files(file):
 	if file in stack_files:
 		return file
 
-def read_stack_files():
-	stack_files = lookup_stack_files()
+def read_stack_files(stack_files):
 
+	contents = {}
 	for stack_file in stack_files:
-		file = open(stack_file, 'r')
-		processed = json.load(file.read(), sort_keys=True)
+		file = open(stack_file, 'rb')
+		processed = pickle.load(file)
+		contents.update(processed)
 		file.close()
-	
-	return processed 
+		
+	return contents 
 
 def requests():
 	id = request.id()
@@ -73,11 +75,11 @@ def requests():
 def new_stack_file():
 	data = requests()
 	a_stack = StackFile(*data)
-	f = open(a_stack.name + '.stk', 'w')
+	f = open(a_stack.name + '.stk', 'wb')
 	
 	data = {a_stack.id: {a_stack.name: a_stack.cards}}
-	json.dump(data, f)
-	f.flush()
+	pickle.dump(data, f)
+	f.close()
 
 def get_stack_files_order():
 	pass

@@ -4,16 +4,18 @@ import glob
 import os
 from nose.tools import *
 import mock
-import json
+import pickle
 from flashcardstudy import stack, errors, cliparser, stack
 
-	
+# TOOLS
 def parser_cleanup():
+	"""Sets parser to empty lists."""
 	cliparser.passed_files = [] 
 	cliparser.passed_args = []
 	cliparser.output = []
 
 def files_cleanup():
+	"""Truncates stack files."""
 	files = stack.lookup_stack_files()
 	for file in files:
 		truncfile = open(file, 'w')
@@ -21,15 +23,21 @@ def files_cleanup():
 		truncfile.close()
 
 def delete_files():
+	"""Deletes all stack (.stk) files in CWD."""
 	files = glob.glob('*.stk')
 	for file in files:
 		os.remove(file)
 
 def create_test_files():
+	"""Creates two blank files 'example.stk' and 'stack.stk'."""
 	f1 = open('example.stk','w')
 	f2 = open('stack.stk','w')
 	f1.close()
 	f2.close()
+
+def create_stack_file_w_cards():
+	sys.stdin = StringIO.StringIO('2\nanimals\ny\ndog\ncanine\n\nfrog\namphibian\nf\n')
+	stack.new_stack_file()
 
 # DATA TESTS (stack)
 
@@ -49,19 +57,18 @@ def test_new_stack_file():
 	assert_equal(stack.lookup_stack_files(), ['example.stk'])
 	delete_files()
 
-#def test_get_list_of_stack_files():
-	#files_cleanup()
-	#data = ['one', 'two', 3, 4]
-	#f = open('example.stk','w')
-	#json.dumps(data, f)
-	#f.close()
-	#data2 = ['one', 'two', 3, 4]
-	#f2 = open('stack.stk','w')
-	#json.dumps(data, f2)
-	#f2.close()
-	#assert_equal(stack.read_stack_files(), data)
-	#assert_equal(stack.read_stack_files(), data2)
+def test_new_stack_file_and_add_cards():
+	create_stack_file_w_cards()
+	assert_equal(stack.lookup_stack_files(), ['animals.stk'])
+	delete_files()
 
+def test_read_stack_file():
+	create_stack_file_w_cards()
+	f = open('animals.stk', 'rb')
+	data = pickle.load(f)	
+	assert_equal(stack.read_stack_files(['animals.stk']), data)
+	f.close()
+	delete_files()
 
 # PARSER TESTS (cliparser)
 def test_parser_with_no_arg():
@@ -97,7 +104,6 @@ def test_parser_with_valid_file():
 def test_parser_with_valid_file_and_args():
 	parser_cleanup()
 	assert_equal(cliparser.parse(['stack.stk', '-r', '-s', '-v']),[['stack.stk'],['-r', '-s', '-v']])
-	delete_files()
 
 def test_parser_with_valid_file_and_invalid_arg():
 	parser_cleanup()
@@ -110,6 +116,6 @@ def test_parser_with_invalid_single_type_arg():
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'example.stk', '-r', '--author'])
 	parser_cleanup()
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'fail.stk', '-e', '--list'])
+	delete_files()
 
-# PROCESSOR TESTS
 

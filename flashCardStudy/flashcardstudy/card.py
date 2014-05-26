@@ -4,13 +4,33 @@ class Card(object):
 		self.id = id
 		content = []
 
-def add_card_helper():
-	print "\nType ++done to save cards in stack"
-	side1 = raw_input("Side one > ")
-	side2 = raw_input("Side two > ")
+class Helpers(object):
 
-	return side1, side2
+	def adding(self):
+
+		finished = False
+		card_count = 1
+		cards = {}
+
+		while finished == False:
+			new_card = {}
+			print "Card: %d" % card_count
+			card_id = card_count
+			side1 = raw_input("Side one: ")
+			side2 = raw_input("Side two: ")
+			new_card[card_id] = [side1, side2]
+			cards.update(new_card)
+
+			finished_prompt = raw_input("Press RETURN to add another card, type F to finish.")
+
+			if finished_prompt.lower() == 'f':
+				finished == True
+				return cards 
+			else:
+				card_count += 1
+
+requests = Helpers()
 
 def add_card():
-	a_card = Card(1)
-	a_card.content.append(*add_card_helper())
+	cards = requests.adding()
+	return cards

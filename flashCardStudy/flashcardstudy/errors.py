@@ -2,7 +2,7 @@ import sys
 
 def id(num):
 	
-	print_help = "\nAdd `-help` to see more."
+	print_help = "\nAdd `--help` or '-h' to see more."
 
 	if num == 0:
 		error = """
