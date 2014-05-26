@@ -17,8 +17,7 @@ ARGS = [
 		] 
 
 single_args = [ARGS[4],ARGS[5],ARGS[12], ARGS[13], 
-			ARGS[14], ARGS[15],ARGS[16], ARGS[19],
-			ARGS[20]]
+			ARGS[14], ARGS[15],ARGS[16]]
 
 
 passed_files = []
@@ -30,6 +29,8 @@ def parse(args):
 	if len(args) <= 1 :
 		for arg in args:
 			if arg in single_args:
+				break
+			elif arg == ARGS[19] or arg == ARGS[20]:
 				break
 			elif arg not in ARGS:
 				errors.id(1)
@@ -53,5 +54,9 @@ def parse(args):
 
 	output.append(passed_files)
 	output.append(passed_args)
+
+	if len(passed_files) >= 1:
+		if ARGS[19] in passed_args or ARGS[20] in passed_args:
+			errors.id(1)
 
 	return output 
