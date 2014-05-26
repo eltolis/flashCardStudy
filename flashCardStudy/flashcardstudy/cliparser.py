@@ -17,7 +17,8 @@ ARGS = [
 		] 
 
 single_args = [ARGS[4],ARGS[5],ARGS[12], ARGS[13], 
-			ARGS[14], ARGS[15],ARGS[16]]
+			ARGS[14], ARGS[15],ARGS[16], ARGS[19],
+			ARGS[20]]
 
 
 passed_files = []

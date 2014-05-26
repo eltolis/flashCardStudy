@@ -1,25 +1,20 @@
 from cliparser import ARGS
-from stack import new_stack_file
+from stack import new_stack_file, lookup_stack_files
 from display import display
 
-#functions = {
-		#ARGS[0]: random(stack=False),
-		#ARGS[1]: random(stack=False),
-		#ARGS[2]: stack(stack=True),
-		#ARGS[3]: stack(stack=True),
-		#ARGS[4]: newstack(),
-		#ARGS[5]: newstack(),
-		#ARGS[6]: editstack(),
-		#ARGS[7]: editstack(),
-		#ARGS[8]: process(reverse=True),
-		#ARGS[9]: process(reverse=True),
-		#ARGS[10]: log(),
-		#ARGS[11]: log(),
-		#ARGS[12]: list(),
-		#ARGS[13]: list(),
-		#ARGS[14]: orderstack(),
-		#ARGS[15]: orderstack(),
-		#ARGS[16]: author()}
+#ARGS = [
+		#'-r', '--random', # 0,1
+		#'-s', '--stack', # 2,3
+		#'-n', '--new', # 4,5
+		#'-e', '--edit', # 6,7
+		#'-v', '--reverse', # 8,9
+		#'-w', '--write', # 10,11
+		#'-l', '--list', # 12,13
+		#'-o', '--order', # 14,15
+		#'--author', # 16
+		#'-d', '--display', # 17,18
+		#'-a', '--all' #19,20
+		#] 
 
 def processor(arguments):
 
@@ -29,12 +24,11 @@ def processor(arguments):
 	if len(arguments[0]) == 0:
 		if ARGS[4] in operation or ARGS[5] in operation:
 			new_stack_file()
-		#elif ARGS[12:13] in operation:
-			#checkstacks.list_stacks()
-		#elif ARGS[14:15] in operation:
-			#orderstack.manager()
-		#elif ARGS[16] in operation:
-			#gethelp.author()
+		elif ARGS[19] in operation or ARGS[20] in operation:
+			files = lookup_stack_files()
+			display(files)
 	else:
-		if ARGS[17] in operation or ARGS[18] in operation:
+		if ARGS[8] in operation or ARGS[9] in operation:
+			display(files,reverse=True)
+		elif ARGS[17] in operation or ARGS[18] in operation:
 			display(files)
