@@ -35,7 +35,7 @@ def gethelp():
 	--------------
 	-a, --all: Displays all stack files in current directory. This arg can be 
 	followed by these:
-	[ -r, -s, -e, -v, -w] (See above)
+	[ -r, -s, -v, -w] (See above)
 
 		Example: `python flashcard.py -a -r -s`
 

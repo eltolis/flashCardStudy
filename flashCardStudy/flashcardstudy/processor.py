@@ -30,15 +30,16 @@ def processor(arguments):
 			log = False
 			reverse = False
 			stack_random = False
-
-			if ARGS[8] in operation or ARGS[9] in operation:
-				reverse=True
-			elif ARGS[0] in operation or ARGS[1] in operation:
-				card_random = True
-			elif ARGS[2] in operation or ARGS[3] in operation:
-				stack_random = True
-			elif ARGS[10] in operation or ARGS[11] in operation:
-				log = True
+			
+			for item in operation:
+				if ARGS[0] == item or ARGS[1] == item:
+					card_random = True
+				elif ARGS[10] == item or ARGS[11] == item:
+					log = True
+				elif ARGS[8] == item or ARGS[9] == item:
+					reverse=True
+				elif ARGS[2] == item or ARGS[3] == item:
+					stack_random = True
 
 			files = lookup_stack_files()
 			display(files, card_random, log, reverse, stack_random)
@@ -49,14 +50,15 @@ def processor(arguments):
 			log = False
 			reverse = False
 			stack_random = False
-
-			if ARGS[8] in operation or ARGS[9] in operation:
-				reverse=True
-			elif ARGS[0] in operation or ARGS[1] in operation:
-				card_random = True
-			elif ARGS[2] in operation or ARGS[3] in operation:
-				stack_random = True
-			elif ARGS[10] in operation or ARGS[11] in operation:
-				log = True
+			
+			for item in operation:
+				if ARGS[0] == item or ARGS[1] == item:
+					card_random = True
+				elif ARGS[10] == item or ARGS[11] == item:
+					log = True
+				elif ARGS[8] == item or ARGS[9] == item:
+					reverse=True
+				elif ARGS[2] == item or ARGS[3] == item:
+					stack_random = True
 
 			display(files, card_random, log, reverse, stack_random)

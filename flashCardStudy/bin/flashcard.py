@@ -8,7 +8,7 @@ def flashcard():
 	if len(sys.argv) == 1:
 		errors.id(0)
 
-	elif len(sys.argv) == 1 and sys.argv[1] == '-h' or sys.argv[1] == '--help':
+	elif len(sys.argv) == 2 and sys.argv[1] == '-h' or sys.argv[1] == '--help':
 		gethelp()
 
 	elif len(sys.argv) >= 1:

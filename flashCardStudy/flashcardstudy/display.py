@@ -17,13 +17,15 @@ def prompt():
 		pass
 
 
-def display(files, card_random=False, log=False, reverse=False, stack_random=False):
+def display(files, card_random, log, reverse, stack_random):
 
 	stacks = stack.read_stack_files(files)
 
 	print """
 	Type 'Q' to stop anytime, RETURN to continue studying.
 	"""
+	print "Your arguments:"
+	print "random cards: %s, random stacks: %s, reverse: %s, log: %s" % (card_random, stack_random, reverse, log)
 	prompt()
 
 	while True:
@@ -43,12 +45,13 @@ def display(files, card_random=False, log=False, reverse=False, stack_random=Fal
 						print '-' * 40 
 
 						if reverse:
+							random.shuffle(card_tuple)
 							print card_list[1]
 							prompt()
 							print card_list[0]
 							prompt()
 							os.system('clear')
-						else:
+						elif not reverse:
 							print card_list[0]
 							prompt()
 							print card_list[1]
@@ -69,7 +72,7 @@ def display(files, card_random=False, log=False, reverse=False, stack_random=Fal
 							print cards[card_id][0]
 							prompt()
 							os.system('clear')
-						else:	
+						elif not reverse:	
 							print cards[card_id][0] # first side of card
 							prompt()
 							print cards[card_id][1] # second side of card
