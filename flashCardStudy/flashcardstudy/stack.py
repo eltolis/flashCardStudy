@@ -56,11 +56,13 @@ def get_valid_files(file):
 
 def read_stack_files(stack_files):
 
-	contents = {}
+	contents = []
+	#contents = {}
 	for stack_file in stack_files:
 		file = open(stack_file, 'rb')
 		processed = pickle.load(file)
-		contents.update(processed)
+		contents.append(processed)
+		#contents.update(processed)
 		file.close()
 		
 	return contents 
@@ -77,7 +79,8 @@ def new_stack_file():
 	a_stack = StackFile(*data)
 	f = open(a_stack.name + '.stk', 'wb')
 	
-	data = {a_stack.id: {a_stack.name: a_stack.cards}}
+	data = [a_stack.id, a_stack.name, [a_stack.cards]]
+	#data = {a_stack.id: {a_stack.name: a_stack.cards}}
 	pickle.dump(data, f)
 	f.close()
 

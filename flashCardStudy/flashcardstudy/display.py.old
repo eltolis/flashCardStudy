@@ -10,7 +10,7 @@ def prompt():
 		if action.lower() == 'q':
 			exit(0)
 
-			if log == True:
+			if log:
 				pass
 
 	except ValueError:
@@ -27,13 +27,16 @@ def display(files, card_random, log, reverse, stack_random):
 	print "Your arguments:"
 	print "random cards: %s, random stacks: %s, reverse: %s, log: %s" % (card_random, stack_random, reverse, log)
 	prompt()
+	
+	if stack_random:
+		random.shuffle(stacks.items())
 
 	while True:
 		for stack_id in stacks.keys(): #stack_id = defines stack order
 			for stack_name in stacks[stack_id]: #stack_name is file name
 				
 				cards = stacks[stack_id][stack_name] # cards = {card_id:[side1,side2]}
-				
+
 				if card_random:
 					card_tuple = cards.items()
 					random.shuffle(card_tuple)
