@@ -34,6 +34,8 @@ def display(files, card_random, log, reverse, stack_random):
 	print "Your arguments:"
 	print "random cards: %s, random stacks: %s, reverse: %s, log: %s" % (card_random, stack_random, reverse, log)
 
+	prompt(log)
+
 	if card_random:
 		for s in cards:
 			random.shuffle(s)
@@ -79,6 +81,18 @@ def display(files, card_random, log, reverse, stack_random):
 		if reverse:
 			side1 = 2
 			side2 = 1
+
+		for a_stack in stacks:
+			if a_card in a_stack[2]:
+				stack_name = a_stack[1] 
+				stack_number = a_stack[0]
+				stack_count = len(a_stack[2])
+
+		os.system('cls' if os.name == 'nt' else 'clear')
+
+		print '-' * 40
+		print "Stack #%d: %s   Card: %d/%d" % (stack_number, stack_name, a_card[0], stack_count)
+		print '-' * 40,'\n'
 
 		print a_card[side1]
 		prompt(log)

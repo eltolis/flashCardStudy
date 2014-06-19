@@ -1,6 +1,7 @@
 import os
 import glob
 import pickle
+from prettytable import PrettyTable
 from flashcardstudy import errors, card
 
 class StackFile(object):
@@ -81,9 +82,14 @@ def new_stack_file():
 	pickle.dump(data, f)
 	f.close()
 
-def get_stack_files_order():
-	pass
+def list_stacks():
+	stacks = lookup_stack_files()
+	contents = read_stack_files(stacks)
+	
+	table = PrettyTable(["Stack ID","Stack Name","No. of cards","Contents ..."])
+	table.align["Contents ..."] = 'l'
 
-def read_cards(stack_ID):
-	pass
+	for stack in contents:
+		table.add_row([stack[0],stack[1], len(stack[2]), [i[1:2] for i in stack[2][0:4]]])
 
+	print table.get_string(sortby="Stack ID")
