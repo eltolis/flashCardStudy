@@ -5,14 +5,32 @@ p1
 a(lp2
 (lp3
 I1
-aS'Japan'
+aS'japan'
 p4
-aS'asia'
+aS'tokyo'
 p5
 aa(lp6
 I2
 aS'germany'
 p7
-aS'europe'
+aS'berlin'
 p8
+aa(lp9
+I3
+aS'czech rep'
+p10
+aS'prague'
+p11
+aa(lp12
+I4
+aS'united states'
+p13
+aS'washington'
+p14
+aa(lp15
+I5
+aS'austral'
+p16
+aS'sydney'
+p17
 aaa.

@@ -49,7 +49,7 @@ def test_lookup_stack_files():
 
 def test_request_file_info():
 	sys.stdin = StringIO.StringIO('1\nexample\nno\n')
-	assert_equal(stack.requests(), (1, 'example', {}))
+	assert_equal(stack.requests(), (1, 'example', []))
 
 def test_new_stack_file():
 	sys.stdin = StringIO.StringIO('1\nexample\nno\n')
@@ -66,7 +66,7 @@ def test_read_stack_file():
 	create_stack_file_w_cards()
 	f = open('animals.stk', 'rb')
 	data = pickle.load(f)	
-	assert_equal(stack.read_stack_files(['animals.stk']), data)
+	assert_equal(stack.read_stack_files(['animals.stk']), [data])
 	f.close()
 	delete_files()
 
