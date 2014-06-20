@@ -117,6 +117,14 @@ def test_parser_with_invalid_single_type_arg():
 	parser_cleanup()
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'fail.stk', '-e', '--list'])
 
+def test_parser_with_edit_arg():
+	parser_cleanup()
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-d', '--edit'])
+	parser_cleanup()
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-d', '-r', '-e'])
+	parser_cleanup()
+	assert_equal(cliparser.parse(['stack.stk','-e']),[['stack.stk'],['-e']])
+
 def test_parser_with_all_arg():
 	parser_cleanup()
 	assert_equal(cliparser.parse(['--all']),[[],['--all']])
