@@ -1,6 +1,7 @@
 import os
 import glob
 import pickle
+from itertools import *
 from prettytable import PrettyTable
 from flashcardstudy import errors, card
 
@@ -14,13 +15,20 @@ class StackFile(object):
 class Helpers(object):
 
 	def id(self):
-		while True:
-			try:
-				prompt = int(raw_input("Stack ID? "))
-				return prompt
+		stacks = lookup_stack_files()
+		contents = read_stack_files(stacks)
+		an_id = count(1)
+		
+		if len(stacks) == 0:
+			return 1
+		else:
+			intersection = [s for s in contents if s[0] != an_id]
+			for s in contents:
+				if next(an_id) in intersection:
+					return next(an_id)
 
-			except ValueError:
-				print "Use numbers only."
+		return next(an_id)
+
 
 	def name(self):
 		while True:
@@ -86,10 +94,18 @@ def list_stacks():
 	stacks = lookup_stack_files()
 	contents = read_stack_files(stacks)
 	
-	table = PrettyTable(["Stack ID","Stack Name","No. of cards","Contents ..."])
-	table.align["Contents ..."] = 'l'
+	table = PrettyTable(["Stack ID","Stack Name","Cards","Contents"])
+	table.align["Contents"] = 'l'
 
 	for stack in contents:
-		table.add_row([stack[0],stack[1], len(stack[2]), [i[1:2] for i in stack[2][0:4]]])
+		stackname = (stack[1][:10] + '...') if len(stack[1]) > 10 else stack[1]
+		stack_cards = [item[1:3] for item in stack[2]]
+		display_cards = []
+		for a_card in stack_cards:
+			for card_cont in a_card:
+				trunc_card = (card_cont[:15] + '...') if len(card_cont) > 15 else card_cont
+				display_cards.append(trunc_card)
 
-	print table.get_string(sortby="Stack ID")
+		table.add_row([stack[0],stackname, len(stack[2]), display_cards[0:4]])
+	
+	print '\n', table.get_string(sortby="Stack ID")

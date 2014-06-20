@@ -36,7 +36,7 @@ def create_test_files():
 	f2.close()
 
 def create_stack_file_w_cards():
-	sys.stdin = StringIO.StringIO('2\nanimals\ny\ndog\ncanine\n\nfrog\namphibian\nf\n')
+	sys.stdin = StringIO.StringIO('animals\ny\ndog\ncanine\n\nfrog\namphibian\nf\n')
 	stack.new_stack_file()
 
 # DATA TESTS (stack)
@@ -48,11 +48,11 @@ def test_lookup_stack_files():
 
 
 def test_request_file_info():
-	sys.stdin = StringIO.StringIO('1\nexample\nno\n')
+	sys.stdin = StringIO.StringIO('example\nno\n')
 	assert_equal(stack.requests(), (1, 'example', []))
 
 def test_new_stack_file():
-	sys.stdin = StringIO.StringIO('1\nexample\nno\n')
+	sys.stdin = StringIO.StringIO('example\nno\n')
 	stack.new_stack_file()
 	assert_equal(stack.lookup_stack_files(), ['example.stk'])
 	delete_files()

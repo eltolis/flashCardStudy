@@ -1,3 +1,5 @@
+from prettytable import PrettyTable
+
 class Card(object):
 
 	def __init__(self, id):
@@ -34,3 +36,21 @@ requests = Helpers()
 def add_card():
 	cards = requests.adding()
 	return cards
+
+def list_card_contents(files):
+	from stack import read_stack_files
+	contents = read_stack_files(files)
+
+	table = PrettyTable(["Card ID", "Side 1", "Side 2"])
+	table.align["Side1"] = 'l'
+	table.align["Side2"] = 'l'
+
+	cards = [stack[2] for stack in contents]
+
+	for card in cards[0]:
+		side1 = (card[1][:40] + '...') if len(card[1]) > 40 else card[1]
+		side2 = (card[2][:40] + '...') if len(card[2]) > 40 else card[2]
+		table.add_row([card[0],side1, side2])
+
+	print "\nStack name: %s" % stack[1]
+	print table.get_string(sortby="Card ID")

@@ -1,5 +1,6 @@
 from cliparser import ARGS, single_args
 from stack import new_stack_file, lookup_stack_files, list_stacks
+from card import list_card_contents
 from display import display
 
 #ARGS = [
@@ -64,3 +65,5 @@ def processor(arguments):
 					stack_random = True
 
 			display(files, card_random, log, reverse, stack_random)
+		elif ARGS[6] in operation or ARGS[7] in operation:
+			list_card_contents(files)
