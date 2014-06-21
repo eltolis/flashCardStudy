@@ -4,6 +4,7 @@ import pickle
 from itertools import *
 from prettytable import PrettyTable
 from flashcardstudy import errors, card
+import sfile
 
 class StackFile(object):
 
@@ -15,8 +16,8 @@ class StackFile(object):
 class Helpers(object):
 
 	def id(self):
-		stacks = lookup_stack_files()
-		contents = read_stack_files(stacks)
+		stacks = sfile.lookup_stack_files()
+		contents = sfile.read_stack_files(stacks)
 		an_id = count(1)
 		
 		if len(stacks) == 0:
@@ -54,26 +55,6 @@ class Helpers(object):
 request = Helpers()
 
 
-def lookup_stack_files():
-	stack_files = glob.glob('*.stk')
-	return stack_files
-
-def get_valid_files(file):
-	stack_files = lookup_stack_files()
-	if file in stack_files:
-		return file
-
-def read_stack_files(stack_files):
-
-	contents = [] 
-	for stack_file in stack_files:
-		file = open(stack_file, 'rb')
-		processed = pickle.load(file)
-		contents.append(processed)
-		file.close()
-		
-	return contents 
-
 def requests():
 	id = request.id()
 	name = request.name()
@@ -91,8 +72,8 @@ def new_stack_file():
 	f.close()
 
 def list_stacks():
-	stacks = lookup_stack_files()
-	contents = read_stack_files(stacks)
+	stacks = sfile.lookup_stack_files()
+	contents = sfile.read_stack_files(stacks)
 	
 	table = PrettyTable(["Stack ID","Stack Name","Cards","Contents"])
 	table.align["Contents"] = 'l'

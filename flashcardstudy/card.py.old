@@ -1,3 +1,4 @@
+import os
 from prettytable import PrettyTable
 
 class Card(object):
@@ -7,6 +8,21 @@ class Card(object):
 		content = []
 
 class Helpers(object):
+
+	def editing(self, files):
+		while True:
+			action = raw_input("Do you want to (A)dd new card, (M)odify a card or (C)hange the order? 'Q' to quit > ")
+
+			if action.lower() == 'a':
+				add_card()
+			elif action.lower() == 'm':
+				print "modify card"
+			elif action.lower() == 'c':
+				print "change the order"
+			elif action.lower() == 'q':
+				exit(1)
+			else:
+				print "Type only 'A', 'M' or 'C'. Type 'Q' to exit."
 
 	def adding(self):
 

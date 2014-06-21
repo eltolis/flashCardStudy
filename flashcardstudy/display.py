@@ -3,6 +3,7 @@ import random
 import sys
 import timeit
 import itertools
+import sfile
 import stack
 
 def prompt(log):
@@ -22,7 +23,7 @@ def prompt(log):
 
 def display(files, card_random, log, reverse, stack_random):
 
-	stacks = stack.read_stack_files(files)
+	stacks = sfile.read_stack_files(files)
 	stacks.sort()
 
 	cards = [a_stack[2] for a_stack in stacks] 
@@ -91,7 +92,7 @@ def display(files, card_random, log, reverse, stack_random):
 		os.system('cls' if os.name == 'nt' else 'clear')
 
 		print '-' * 40
-		print "Stack #%d: %s   Card: %d/%d" % (stack_number, stack_name, a_card[0], stack_count)
+		print "Stack #%d: %s   Card: %d/%d" % (stack_number, stack_name[:15], a_card[0], stack_count)
 		print '-' * 40,'\n'
 
 		print a_card[side1]

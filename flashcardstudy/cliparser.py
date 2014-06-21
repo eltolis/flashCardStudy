@@ -1,6 +1,6 @@
 import re
 import errors
-from stack import get_valid_files
+from sfile import get_valid_files
 
 ARGS = [
 		'-r', '--random', # 0,1

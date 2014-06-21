@@ -47,4 +47,10 @@ def gethelp():
 	and you can display stacks and cards in order (ID) 
 	or in random fashion.
 """
-	
+
+def author():
+	print"""
+	2014 Ondrej Synacek
+	web: comatory.github.io
+	twitter: @ondrejsynacek
+	"""

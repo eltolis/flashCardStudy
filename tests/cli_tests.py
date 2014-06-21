@@ -5,7 +5,7 @@ import os
 from nose.tools import *
 import mock
 import pickle
-from flashcardstudy import stack, errors, cliparser, stack
+from flashcardstudy import stack, errors, cliparser, stack, sfile
 
 # TOOLS
 def parser_cleanup():
@@ -16,7 +16,7 @@ def parser_cleanup():
 
 def files_cleanup():
 	"""Truncates stack files."""
-	files = stack.lookup_stack_files()
+	files = sfile.lookup_stack_files()
 	for file in files:
 		truncfile = open(file, 'w')
 		truncfile.truncate()
@@ -43,7 +43,7 @@ def create_stack_file_w_cards():
 
 def test_lookup_stack_files():
 	create_test_files()
-	assert_equal(stack.lookup_stack_files(),['example.stk','stack.stk'])
+	assert_equal(sfile.lookup_stack_files(),['example.stk','stack.stk'])
 	delete_files()
 
 
@@ -54,19 +54,19 @@ def test_request_file_info():
 def test_new_stack_file():
 	sys.stdin = StringIO.StringIO('example\nno\n')
 	stack.new_stack_file()
-	assert_equal(stack.lookup_stack_files(), ['example.stk'])
+	assert_equal(sfile.lookup_stack_files(), ['example.stk'])
 	delete_files()
 
 def test_new_stack_file_and_add_cards():
 	create_stack_file_w_cards()
-	assert_equal(stack.lookup_stack_files(), ['animals.stk'])
+	assert_equal(sfile.lookup_stack_files(), ['animals.stk'])
 	delete_files()
 
 def test_read_stack_file():
 	create_stack_file_w_cards()
 	f = open('animals.stk', 'rb')
 	data = pickle.load(f)	
-	assert_equal(stack.read_stack_files(['animals.stk']), [data])
+	assert_equal(sfile.read_stack_files(['animals.stk']), [data])
 	f.close()
 	delete_files()
 
