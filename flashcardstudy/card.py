@@ -32,6 +32,8 @@ class Helpers(object):
 		finished = False
 		card_count = count(1)
 
+	
+
 		if files:
 			contents = sfile.read_stack_files(files)
 			cards = contents[0][2]
@@ -46,26 +48,18 @@ class Helpers(object):
 				if next(card_count) in ids: 
 					continue	
 
-			print "Card: %d" % card_id 
-			side1 = raw_input("Side one: ")
-			side2 = raw_input("Side two: ")
-			new_card = [card_id, side1, side2]
-			cards.append(new_card)
+			else:
+				print "Card: %d" % card_id 
+				side1 = raw_input("Side one: ")
+				side2 = raw_input("Side two: ")
+				new_card = [card_id, side1, side2]
+				cards.append(new_card)
 
 			finished_prompt = raw_input("Press RETURN to add another card, type F to finish.")
 
 			if finished_prompt.lower() == 'f':
 				finished == True
-
-				if files:
-					#f = open(files[0], 'wb')
-					#f.truncate()
-					#pickle.dump(cards, f)
-					#f.close()
-					pass
-
-				else:
-					return cards 
+				return cards 
 			else:
 				continue
 
