@@ -56,7 +56,7 @@ class Helpers(object):
 			new_card = []
 			card_id = next(card_count)
 			if files:
-				if next(card_count) in ids: 
+				if card_id in ids: 
 					continue
 
 			print "Card: %d" % card_id 
