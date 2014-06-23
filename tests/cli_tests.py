@@ -5,7 +5,7 @@ import os
 from nose.tools import *
 import mock
 import pickle
-from flashcardstudy import stack, errors, cliparser, stack, sfile
+from flashcardstudy import stack, card, errors, cliparser, stack, sfile
 
 # TOOLS
 def parser_cleanup():
@@ -46,7 +46,6 @@ def test_lookup_stack_files():
 	assert_equal(sfile.lookup_stack_files(),['example.stk','stack.stk'])
 	delete_files()
 
-
 def test_request_file_info():
 	sys.stdin = StringIO.StringIO('example\nno\n')
 	assert_equal(stack.requests(), (1, 'example', []))
@@ -61,6 +60,19 @@ def test_new_stack_file_and_add_cards():
 	create_stack_file_w_cards()
 	assert_equal(sfile.lookup_stack_files(), ['animals.stk'])
 	delete_files()
+
+def test_adding_cards_to_existing_stack():
+	create_stack_file_w_cards()
+	adding_cards = card.Helpers()
+	sys.stdin = StringIO.StringIO('a\nwhale\nmammal\nf\nq\n')
+	adding_cards.editing(['animals.stk'])
+	f = open('animals.stk', 'rb')
+	data = pickle.load(f)	
+	assert_equal(data[0], 1)
+	assert_equal(data[1], 'animals')
+	assert_equal(data[2][2], [3, 'whale','mammal'])
+	assert_equal(sfile.read_stack_files(['animals.stk']), [data])
+	f.close()
 
 def test_read_stack_file():
 	create_stack_file_w_cards()

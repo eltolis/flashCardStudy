@@ -1,4 +1,6 @@
+import sys
 import os
+import pickle
 from itertools import count
 from prettytable import PrettyTable
 import sfile
@@ -17,13 +19,24 @@ class Helpers(object):
 			action = raw_input("Do you want to (A)dd new card, (M)odify a card or (C)hange the order? 'Q' to quit > ")
 
 			if action.lower() == 'a':
+				read_file = sfile.read_stack_files(files)
+				contents = read_file[0]
+				old_cards = contents[2]
 				new_cards = add_card(files)
+
+				for a_card in new_cards:
+					old_cards.append(a_card)
+
+				data = [contents[0], contents[1], new_cards] 
+				f = open(files[0], 'wb')
+				pickle.dump(data, f)
+				f.close()
 			elif action.lower() == 'm':
 				print "modify card"
 			elif action.lower() == 'c':
 				print "change the order"
 			elif action.lower() == 'q':
-				exit(1)
+				break
 			else:
 				print "Type only 'A', 'M' or 'C'. Type 'Q' to exit."
 
@@ -31,8 +44,6 @@ class Helpers(object):
 
 		finished = False
 		card_count = count(1)
-
-	
 
 		if files:
 			contents = sfile.read_stack_files(files)
@@ -46,14 +57,13 @@ class Helpers(object):
 			card_id = next(card_count)
 			if files:
 				if next(card_count) in ids: 
-					continue	
+					continue
 
-			else:
-				print "Card: %d" % card_id 
-				side1 = raw_input("Side one: ")
-				side2 = raw_input("Side two: ")
-				new_card = [card_id, side1, side2]
-				cards.append(new_card)
+			print "Card: %d" % card_id 
+			side1 = raw_input("Side one: ")
+			side2 = raw_input("Side two: ")
+			new_card = [card_id, side1, side2]
+			cards.append(new_card)
 
 			finished_prompt = raw_input("Press RETURN to add another card, type F to finish.")
 
