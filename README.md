@@ -1,78 +1,88 @@
 # flashCardStudy
 
-A command line utility that is intended for anyone who needs to memorize stuff. You can create and display virtual flash cards organized into stacks. This utility is written in Python 2.7 and it does not use any kind of database system. Everything is file based, your stacks are saved into files with _stk_ extension.
+This is simple command line utility aimed at anyone who wants to use memorizing technique for studying. This utility creates virtual stacks of cards, you flip the cards just as the paper flash cards. It works best for stuff like definitions or memorizing foreign words.
+flashCardStudy does not use database for saving its data but instead relies on files.
 
-## Changes
+## Version 0.8
 
-- It is possible to add, delete and modify order of the cards in stack.
-- You can display cards in random order and reversed.
-- You can use the `--all` argument to pass all stack files in current dir to the utility.
-- You can jump between stacks by using `-s` argument.
+* fixed parser problems
+* you can know edit existing stacks (adding cards, deleting, reordering)
+* modifying the cards and reordering the stacks will be possible in next version
+* time logging does not work yet
 
-## Current implementation
+## Installation
 
-For now the package is not ready but it works in shell. Clone the repo and navigate to `/bin` directory:
+This is a standard package written in Python 2.7. Simply clone the repo, navigate to folder where `setup.py` is and simply type:
 
-`python flashstudy.py [arguments]`
+	python setup.py install
 
-I will add GUI in Tkinter later on so you can use the scipt graphically.
+You might need to run this as _sudo_. This package will be available on PyPi shortly. Installation to `virtualenv` is simple too. If you do not want to install the package and just plainly use the utility, you will find the executable script in `bin/flashstudy.py`.
+
+## Usage
+
+You must feed parameters as CLI arguments for flashCardStudy to work. Bash command for this utility is `flashstudy`. For help do: 
+
+	flashstudy -h
+
+Every stack has an ID, name and contains the cards. Cards must always be in stack. Stack ID defines its order, stack name defines the filename. Each stack file has `.stk` extension and is simple binary file created by `Pickle` module.
+
+Cards have their order as well which can be changed by using `-e` or `--edit` argument. You can have as many stacks containing as many cards as you want. You pass stacks (`.stk` files) as arguments plus modifier arguments. You can avoid passing filenames to utility by using `-a` or `--all` argument and combine it with modifier arguments.
+
+## Examples
+
+#### Create new stack
+
+	flashstudy -n
+
+#### Start session
+
+	flashstudy [filename1.stk] [filename2.stk] -d -r -s
+
+This will display cards from stacks _filename1_ and _filename2_. Utility will jump between the stacks randomly (`-s` argument) and it will also display individual cards randomly (`-r` argument).
+
+	flashstudy --all -v
+
+All stacks in current directory will be used, sides of the cards will be flipped because of the `-v` (also `--reverse`) argument.
+You must always use either `-d` or `-a` for session to start. You can optionally add arguments (see below).
+
+#### Edit a stack
+
+	flashstudy [filename1.stk] --edit
+
+This will launch interface for editing _filename1_ stack. You can add another cards here, as well as delete them. You can also reorder the cards if you want to have cards displayed in certain way.
 
 ## Arguments
 
-When you launch `python flashstudy.py --help` you will get the help screen.
+`-n`  `--new`: Creates new stack file.
+`-e`  `--edit`: Edit stack file.
+`-l`  `--list`: List stacks and info in current directory.
+`-o`  `--order`: Reorder stacks in current directory.
 
-### Multiple-style arguments:
+`-d`  `--display`: Will display/start session for given stack(s).
+`-a`  `--all`: Will display/start session for all stacks in current directory.
+`-r`  `--random`: Cards from stack are displayed randomly.
+`-s`  `--stack`: Jumps between stacks randomly.
+`-v`  `--reverse`: Flips the sides of cards.
+`-w`  `--write`: Logs the duration of the session.
 
-You need to pass stack filename (\*.stk) with these arguments:
+You must provide stack file(s) for these arguments:
+`-d`  `--display`
+`-r`  `--random`
+`-s`  `--stack`
+`-v`  `--reverse`
+`-w`  `--write`
 
--d, --display: Will display stack(s) normally.
--r, --random: Will display cards in random order (stacks are always in order)
--s, --stack: Stacks are random as well (only with multiple stacks)
--e, --edit: Edit stack, add/modify cards and their order
--v, --reverse: Shows side two of card(s) first.
--w, --write: Will display time log when the session is over. 
+You don't provide stack file for these arguments:
+`-n`  `--new`
+`-e`  `--edit`
+`-l`  `--list`
+`-o`  `--order`
+`-a`  `--all`
 
-Example: 
+When using `-e` or `--edit` argument, you can only pass single stack file.
 
-	python flashcard.py mystack.stk -d -r
+You can substitute stack files plus `-d` or `--display` with `-a` or `--all` argument.
 
-This will launch flashcard with only one stack file
-named `mystack.stk' and it will display cards
-in random order. 
+## To be added
 
-### Single-style arguments:
-
-No need to pass stack filename for these options:
-
--n, --new: Create new stack
--l, --list: List stack(s) in current dir
--o, --order: Only for changing order of stacks in current dir
---author: Author info
-
-Example: 
-
-	python flashcard.py -n
-
-Launches flashcard in new mode that allows you to create
-new stack and add cards into that stack.
-
-### 'All' argument:
-
--a, --all: Displays all stack files in current directory. 
-
-This arg can be followed by these:
-[ -r, -s, -v, -w] (See above)
-
-Example: 
-
-	python flashcard.py -a -r -s
-
-Will display all stacks in current dir in random order
-and cards are also shuffled.
-
-Stack contains cards. Cards have two sides, each contains strings. 
-Sides are flipped by keystroke. You can have multiple stacks 
-and you can display stacks and cards in order (ID) 
-or in random fashion.
-
-
+flashCardStudy will also probably include GUI in the future built in Tkinter so it will work on all platforms.
