@@ -133,11 +133,15 @@ def test_parser_with_invalid_file():
 def test_parser_with_valid_file():
 	parser_cleanup()
 	create_test_files()
-	assert_equal(cliparser.parse(['stack.stk', '-r']), [['stack.stk'],['-r']])
+	assert_equal(cliparser.parse(['stack.stk', '-d', '-r']), [['stack.stk'],['-d', '-r']])
 
 def test_parser_with_valid_file_and_args():
 	parser_cleanup()
 	assert_equal(cliparser.parse(['stack.stk', '-r', '-s', '-v']),[['stack.stk'],['-r', '-s', '-v']])
+
+#def test_parser_without_display_arg():
+	#parser_cleanup()
+	#assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-r', '-s'])
 
 def test_parser_with_valid_file_and_invalid_arg():
 	parser_cleanup()

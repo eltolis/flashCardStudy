@@ -19,6 +19,9 @@ ARGS = [
 single_args = [ARGS[4],ARGS[5],ARGS[12], ARGS[13],
 			ARGS[14],ARGS[15],ARGS[16]]
 
+display_arg = [ARGS[0], ARGS[1], ARGS[2], ARGS[3],
+			ARGS[8], ARGS[9], ARGS[10], ARGS[11],
+			ARGS[17], ARGS[18]]
 
 passed_files = []
 passed_args = []
