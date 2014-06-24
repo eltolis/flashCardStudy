@@ -85,6 +85,17 @@ def test_card_reordering():
 	f.close()
 	delete_files()
 
+def test_deleting_cards():
+	create_stack_file_w_cards()
+	f = open('animals.stk', 'rb')
+	data = pickle.load(f)	
+	sys.stdin = StringIO.StringIO('1\nq\n')
+	card.delete_card(data)
+	assert_equal(len(data[2]), 1)
+	assert_equal(data[2][0], [1, 'frog', 'amphibian'])
+	f.close()
+	delete_files()
+
 def test_read_stack_file():
 	create_stack_file_w_cards()
 	f = open('animals.stk', 'rb')

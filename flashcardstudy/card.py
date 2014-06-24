@@ -3,6 +3,7 @@ import os
 import pickle
 from itertools import count
 from prettytable import PrettyTable
+import errors
 import sfile
 
 class Card(object):
@@ -33,14 +34,15 @@ class Helpers(object):
 				print "modify card"
 
 			elif action.lower() == 'd':
-				print "delete card"
+				data = delete_card(contents)
 
 			elif action.lower() == 'c':
 				data = change_card_order(contents)
 			elif action.lower() == 'q':
 				break
 			else:
-				print "Type only 'A', 'M' or 'C'. Type 'Q' to exit."
+				print "Error! Invalid command. Select only 'A', 'M', 'D', 'C' or 'Q'"
+				continue
 
 			f = open(files[0], 'wb')
 			pickle.dump(data, f)
@@ -94,7 +96,18 @@ def change_card_order(contents):
 			new_position = int(raw_input("Please select new position (ID) > "))
 			contents[2].insert(new_position - 1, moved_card)
 		except IndexError, ValueError:
-			print "input error"
+			errors.id(5,no_quit=True)
+
+		renumber_card_order(contents)
+		return contents
+
+def delete_card(contents):
+	while True:
+		try:
+			select = int(raw_input("Please select card (ID) you want to delete > "))
+			deleted_card = contents[2].remove(contents[2][select - 1])
+		except IndexError, ValueError:
+			errors.id(5,no_quit=True)
 
 		renumber_card_order(contents)
 		return contents

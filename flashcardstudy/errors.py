@@ -1,6 +1,6 @@
 import sys
 
-def id(num):
+def id(num,no_quit=None):
 	
 	print_help = "\nAdd `--help` or '-h' to see more."
 
@@ -19,6 +19,13 @@ Error! You must append argument to launch the program."""
 	elif num == 4:
 		error = """
 Error! Don't use this argument with file(s)."""
+	elif num == 5:
+		error = """
+Error! Invalid card ID. Try again."""
 
 	print error, print_help
-	exit(0)
+
+	if no_quit:
+		pass
+	else:
+		exit(0)
