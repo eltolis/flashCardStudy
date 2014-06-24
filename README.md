@@ -3,12 +3,11 @@
 This is simple command line utility aimed at anyone who wants to use memorizing technique for studying. This utility creates virtual stacks of cards, you flip the cards just as the paper flash cards. It works best for stuff like definitions or memorizing foreign words.
 flashCardStudy does not use database for saving its data but instead relies on files.
 
-## Version 0.8
+## Version 1.0 
 
 * fixed parser problems
-* you can know edit existing stacks (adding cards, deleting, reordering)
-* modifying the cards and reordering the stacks will be possible in next version
-* time logging does not work yet
+* it is possible to edit cards in existing stacks (adding, modifying, changing order and deleting)
+* reordering of stacks is now implemented
 
 ## Installation
 

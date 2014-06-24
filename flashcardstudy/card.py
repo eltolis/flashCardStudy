@@ -92,7 +92,7 @@ def change_card_order(contents):
 		try:
 			select = int(raw_input("Please select card (ID) you want to move > "))
 			moved_card = contents[2].pop(select - 1)
-			print "You selected: ", moved_card
+			print "You selected card ID %d, contents: [%s], [%s] " % (moved_card[0], moved_card[1][:30], moved_card[2][:30])
 			new_position = int(raw_input("Please select new position (ID) > "))
 			contents[2].insert(new_position - 1, moved_card)
 		except IndexError, ValueError:
@@ -158,6 +158,11 @@ def list_modified_card(contents, select):
 	table_card.align["Side1"] = 'l'
 	table_card.align["Side2"] = 'l'
 
-	table_card.add_row([contents[2][select - 1][0], contents[2][select - 1][1], contents[2][select - 1][2]])
+	side1 = contents[2][select - 1][1]
+	side2 = contents[2][select - 1][1]
+	display_side1 = (side1[:40] + '...') if len(side1) > 40 else side1
+	display_side2 = (side2[:40] + '...') if len(side2) > 40 else side2
+
+	table_card.add_row([contents[2][select - 1][0], display_side1, display_side2])
 
 	print table_card

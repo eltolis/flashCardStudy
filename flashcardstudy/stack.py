@@ -50,7 +50,7 @@ class Helpers(object):
 				cards = [] 
 
 			return cards
-		
+
 
 request = Helpers()
 
@@ -70,6 +70,26 @@ def new_stack_file():
 	data = [a_stack.id, a_stack.name, a_stack.cards]
 	pickle.dump(data, f)
 	f.close()
+
+def change_stack_order(files):
+	stacks = sfile.read_stack_files(files)
+	stacks.sort()
+	try:
+		select = int(raw_input("Select stack (ID) > "))
+		moved_stack = stacks.pop(select - 1)
+		new_position = int(raw_input("Select new position (ID) > "))
+		stacks.sort()
+		stacks.insert(new_position - 1, moved_stack)
+	except ValueError, IndexError:
+		errors.id(6)
+
+	
+	for a_stack in stacks:
+		a_stack[0] = stacks.index(a_stack) + 1
+		f = open(a_stack[1] + '.stk', 'wb')
+		pickle.dump(a_stack, f)
+		f.close()
+
 
 def list_stacks():
 	stacks = sfile.lookup_stack_files()

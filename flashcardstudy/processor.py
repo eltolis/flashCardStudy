@@ -29,6 +29,11 @@ def processor(arguments):
 			stack.new_stack_file()
 		elif ARGS[12] in operation or ARGS[13] in operation:
 			stack.list_stacks()
+		elif ARGS[14] in operation or ARGS[15] in operation:
+			stack.list_stacks()
+			stack.change_stack_order(sfile.lookup_stack_files())
+			print "Reordered! "
+			stack.list_stacks()
 		elif ARGS[19] in operation or ARGS[20] in operation:
 
 			card_random = False
