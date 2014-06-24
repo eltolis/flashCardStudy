@@ -126,9 +126,9 @@ def test_parser_with_files_only():
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk','notes.stk'])
 
 def test_parser_with_invalid_file():
-	assert_raises(SystemExit, cliparser.parse, ['notes.stk','-r'])
-	assert_raises(SystemExit, cliparser.parse, ['stack.stk','notes.stk','-r'])
-	assert_raises(SystemExit, cliparser.parse, ['fail.stk', '-v'])
+	assert_raises(SystemExit, cliparser.parse, ['notes.stk','-r', '-d'])
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk','notes.stk','-r', '-d'])
+	assert_raises(SystemExit, cliparser.parse, ['fail.stk', '-v', '-d'])
 
 def test_parser_with_valid_file():
 	parser_cleanup()
@@ -137,11 +137,15 @@ def test_parser_with_valid_file():
 
 def test_parser_with_valid_file_and_args():
 	parser_cleanup()
-	assert_equal(cliparser.parse(['stack.stk', '-r', '-s', '-v']),[['stack.stk'],['-r', '-s', '-v']])
+	assert_equal(cliparser.parse(['stack.stk', '-d', '-r', '-s', '-v']),[['stack.stk'],['-d', '-r', '-s', '-v']])
 
-#def test_parser_without_display_arg():
-	#parser_cleanup()
-	#assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-r', '-s'])
+def test_parser_without_display_arg():
+	parser_cleanup()
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-r', '-s'])
+
+def test_parser_and_long_args():
+	parser_cleanup()
+	assert_equal(cliparser.parse(['stack.stk', '--display', '--random']),[['stack.stk'],['--display','--random']])
 
 def test_parser_with_valid_file_and_invalid_arg():
 	parser_cleanup()

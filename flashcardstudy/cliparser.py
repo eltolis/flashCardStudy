@@ -19,9 +19,8 @@ ARGS = [
 single_args = [ARGS[4],ARGS[5],ARGS[12], ARGS[13],
 			ARGS[14],ARGS[15],ARGS[16]]
 
-display_arg = [ARGS[0], ARGS[1], ARGS[2], ARGS[3],
-			ARGS[8], ARGS[9], ARGS[10], ARGS[11],
-			ARGS[17], ARGS[18]]
+display_args = [ARGS[0], ARGS[1], ARGS[2], ARGS[3],
+			ARGS[8], ARGS[9], ARGS[10], ARGS[11]]
 
 passed_files = []
 passed_args = []
@@ -58,15 +57,22 @@ def parse(args):
 	output.append(passed_files)
 	output.append(passed_args)
 
+	check_display_arg = set(passed_args).intersection(display_args)
+
 	if len(passed_args) > 1 and ARGS[6] in passed_args or len(passed_args) > 1 and ARGS[7] in passed_args:
 		errors.id(1)
 	elif len(passed_files) > 1:
-		if ARGS[6] in passed_args or ARGS[7] in passed_args:
+		if ARGS[6] in passed_args or ARGS[7] in passed_args: 
 			errors.id(2)
 		elif ARGS[19] in passed_args or ARGS[20] in passed_args:
 			errors.id(4)
 	elif len(passed_files) >= 1:
 		if ARGS[19] in passed_args or ARGS[20] in passed_args:
 			errors.id(4)
+		elif check_display_arg:
+			if ARGS[17] in passed_args or ARGS[18] in passed_args:
+				pass
+			elif ARGS[17] not in passed_args or ARGS[18] not in passed_args:
+				errors.id(6)
 
 	return output 
