@@ -158,6 +158,8 @@ def test_parser_with_edit_arg():
 	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-d', '-r', '-e'])
 	parser_cleanup()
 	assert_equal(cliparser.parse(['stack.stk','-e']),[['stack.stk'],['-e']])
+	parser_cleanup()
+	assert_equal(cliparser.parse(['stack.stk','--edit']),[['stack.stk'],['--edit']])
 
 def test_parser_with_all_arg():
 	parser_cleanup()

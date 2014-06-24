@@ -55,7 +55,7 @@ def parse(args):
 	output.append(passed_files)
 	output.append(passed_args)
 
-	if len(passed_args) > 1 and ARGS[6] in passed_args or ARGS[7] in passed_args:
+	if len(passed_args) > 1 and ARGS[6] in passed_args or len(passed_args) > 1 and ARGS[7] in passed_args:
 		errors.id(1)
 	elif len(passed_files) > 1:
 		if ARGS[6] in passed_args or ARGS[7] in passed_args:
