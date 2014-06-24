@@ -31,7 +31,7 @@ class Helpers(object):
 				data = [contents[0], contents[1], new_cards] 
 
 			elif action.lower() == 'm':
-				print "modify card"
+				data = modify_card(contents)
 
 			elif action.lower() == 'd':
 				data = delete_card(contents)
@@ -112,6 +112,26 @@ def delete_card(contents):
 		renumber_card_order(contents)
 		return contents
 
+def card_editor(contents, select, side):
+	print "\nEditing card #%d, side %d" % (contents[2][select - 1][0], side)
+	list_modified_card(contents, select)
+	new_content = raw_input("New content: > ")
+
+	return new_content
+
+def modify_card(contents):
+	while True:
+		try:
+			select = int(raw_input("Please select card (ID) you want to modify > "))
+			side = int(raw_input("Choose side to edit (1) or (2) > "))
+			new_content = card_editor(contents, select, side)
+			contents[2][select - 1][side] = new_content
+	
+		except IndexError, ValueError:
+			errors.id(5,no_quit=True)
+
+		return contents 
+
 def renumber_card_order(contents):
 	for a_card in contents[2]:
 		a_card[0] = contents[2].index(a_card) + 1
@@ -132,3 +152,12 @@ def list_card_contents(files):
 
 	print "\nStack name: %s" % stack[1]
 	print table.get_string(sortby="Card ID")
+
+def list_modified_card(contents, select):
+	table_card = PrettyTable(["Card ID", "Side 1", "Side 2"])
+	table_card.align["Side1"] = 'l'
+	table_card.align["Side2"] = 'l'
+
+	table_card.add_row([contents[2][select - 1][0], contents[2][select - 1][1], contents[2][select - 1][2]])
+
+	print table_card

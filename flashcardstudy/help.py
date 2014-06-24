@@ -50,7 +50,7 @@ def gethelp():
 
 def author():
 	print"""
-	2014 Ondrej Synacek
+	2014 comatory
 	web: comatory.github.io
-	twitter: @ondrejsynacek
+	twitter: @cmdspacenet
 	"""

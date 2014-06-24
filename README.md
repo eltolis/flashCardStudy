@@ -76,6 +76,8 @@ ______
 `-w`  `--write`: Logs the duration of the session.
 
 
+______
+
 You must provide stack file(s) for these arguments:
 
 `-d`  `--display`
@@ -88,6 +90,8 @@ You must provide stack file(s) for these arguments:
 
 `-w`  `--write`
 
+
+______
 
 You don't provide stack file for these arguments:
 
