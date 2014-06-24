@@ -1,12 +1,12 @@
 # flashCardStudy
 
-A command line script that is intended for anyone who needs to memorize stuff. You can create and display virtual flash cards organized into stacks. This script is written in Python 2.7.
+A command line utility that is intended for anyone who needs to memorize stuff. You can create and display virtual flash cards organized into stacks. This utility is written in Python 2.7 and it does not use any kind of database system. Everything is file based, your stacks are saved into files with _stk_ extension.
 
 ## Changes
 
-- You can now create stacks and add cards to them.
+- It is possible to add, delete and modify order of the cards in stack.
 - You can display cards in random order and reversed.
-- You can use the `--all` argument to pass all stack files in current dir to the script.
+- You can use the `--all` argument to pass all stack files in current dir to the utility.
 - You can jump between stacks by using `-s` argument.
 
 ## Current implementation
