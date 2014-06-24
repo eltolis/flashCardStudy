@@ -54,30 +54,53 @@ This will launch interface for editing _filename1_ stack. You can add another ca
 ## Arguments
 
 `-n`  `--new`: Creates new stack file.
+
 `-e`  `--edit`: Edit stack file.
+
 `-l`  `--list`: List stacks and info in current directory.
+
 `-o`  `--order`: Reorder stacks in current directory.
 
+______
+
 `-d`  `--display`: Will display/start session for given stack(s).
+
 `-a`  `--all`: Will display/start session for all stacks in current directory.
+
 `-r`  `--random`: Cards from stack are displayed randomly.
+
 `-s`  `--stack`: Jumps between stacks randomly.
+
 `-v`  `--reverse`: Flips the sides of cards.
+
 `-w`  `--write`: Logs the duration of the session.
 
+
 You must provide stack file(s) for these arguments:
+
 `-d`  `--display`
+
 `-r`  `--random`
+
 `-s`  `--stack`
+
 `-v`  `--reverse`
+
 `-w`  `--write`
 
+
 You don't provide stack file for these arguments:
+
 `-n`  `--new`
+
 `-e`  `--edit`
+
 `-l`  `--list`
+
 `-o`  `--order`
+
 `-a`  `--all`
+
 
 When using `-e` or `--edit` argument, you can only pass single stack file.
 
