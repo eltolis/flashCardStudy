@@ -16,11 +16,11 @@ class Helpers(object):
 	def editing(self, files):
 		while True:
 			list_card_contents(files)
-			action = raw_input("Do you want to (A)dd new card, (M)odify a card or (C)hange the order? 'Q' to quit > ")
+			read_file = sfile.read_stack_files(files)
+			contents = read_file[0]
+			action = raw_input("Do you want to (A)dd new card, (M)odify a card, (D)elete a card or (C)hange the order? 'Q' to quit > ")
 
 			if action.lower() == 'a':
-				read_file = sfile.read_stack_files(files)
-				contents = read_file[0]
 				old_cards = contents[2]
 				new_cards = add_card(files)
 
@@ -28,17 +28,23 @@ class Helpers(object):
 					old_cards.append(a_card)
 
 				data = [contents[0], contents[1], new_cards] 
-				f = open(files[0], 'wb')
-				pickle.dump(data, f)
-				f.close()
+
 			elif action.lower() == 'm':
 				print "modify card"
+
+			elif action.lower() == 'd':
+				print "delete card"
+
 			elif action.lower() == 'c':
-				print "change the order"
+				data = change_card_order(contents)
 			elif action.lower() == 'q':
 				break
 			else:
 				print "Type only 'A', 'M' or 'C'. Type 'Q' to exit."
+
+			f = open(files[0], 'wb')
+			pickle.dump(data, f)
+			f.close()
 
 	def adding(self, files=None):
 
@@ -78,6 +84,24 @@ requests = Helpers()
 def add_card(files=None):
 	cards = requests.adding(files)
 	return cards
+
+def change_card_order(contents):
+	while True:
+		try:
+			select = int(raw_input("Please select card (ID) you want to move > "))
+			moved_card = contents[2].pop(select - 1)
+			print "You selected: ", moved_card
+			new_position = int(raw_input("Please select new position (ID) > "))
+			contents[2].insert(new_position - 1, moved_card)
+		except IndexError, ValueError:
+			print "input error"
+
+		renumber_card_order(contents)
+		return contents
+
+def renumber_card_order(contents):
+	for a_card in contents[2]:
+		a_card[0] = contents[2].index(a_card) + 1
 
 def list_card_contents(files):
 	contents = sfile.read_stack_files(files)

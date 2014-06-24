@@ -74,6 +74,17 @@ def test_adding_cards_to_existing_stack():
 	assert_equal(sfile.read_stack_files(['animals.stk']), [data])
 	f.close()
 
+def test_card_reordering():
+	create_stack_file_w_cards()
+	f = open('animals.stk', 'rb')
+	data = pickle.load(f)	
+	sys.stdin = StringIO.StringIO('2\n1\n\q\n')
+	card.change_card_order(data)
+	assert_equal(data[2][0], [1, 'frog', 'amphibian'])
+	assert_equal(data[2][1], [2, 'dog', 'canine'])
+	f.close()
+	delete_files()
+
 def test_read_stack_file():
 	create_stack_file_w_cards()
 	f = open('animals.stk', 'rb')
