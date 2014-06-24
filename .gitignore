@@ -1,6 +1,6 @@
-.pyc
-.stk
-.swp
+*.pyc
+*.stk
+*.swp
 .DS_Store
 .DS_Store?
 ._*
