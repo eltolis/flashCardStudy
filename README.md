@@ -15,7 +15,11 @@ This is a standard package written in Python 2.7. Simply clone the repo, navigat
 
 	python setup.py install
 
-You might need to run this as _sudo_. This package will be available on PyPi shortly. Installation to `virtualenv` is simple too. If you do not want to install the package and just plainly use the utility, you will find the executable script in `bin/flashstudy.py`.
+The package is also available on PyPi so you can install it by using [pip](https://github.com/pypa/pip).
+
+	pip install flashCardStudy
+
+You might need to run this as _sudo_. Installation to `virtualenv` is simple too. If you do not want to install the package and just plainly use the utility, you will find the executable script in `bin/flashstudy.py`. The package contains one dependency: [PrettyTable](https://pypi.python.org/pypi/PrettyTable/0.7.2) but that should be installed automatically when going using the pip route.
 
 ## Usage
 
@@ -23,7 +27,7 @@ You must feed parameters as CLI arguments for flashCardStudy to work. Bash comma
 
 	flashstudy -h
 
-Every stack has an ID, name and contains the cards. Cards must always be in stack. Stack ID defines its order, stack name defines the filename. Each stack file has `.stk` extension and is simple binary file created by `Pickle` module.
+Every stack has an ID, name and contains the cards. Cards must always be in stack. Stack ID defines its order, stack name defines the filename. Each stack file has `.stk` extension and is simple binary file created by [Pickle](https://wiki.python.org/moin/UsingPickle) module.
 
 Cards have their order as well which can be changed by using `-e` or `--edit` argument. You can have as many stacks containing as many cards as you want. You pass stacks (`.stk` files) as arguments plus modifier arguments. You can avoid passing filenames to utility by using `-a` or `--all` argument and combine it with modifier arguments.
 

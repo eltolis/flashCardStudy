@@ -11,7 +11,7 @@ App designed for studying/memorizing flashcards. You create flashcards in the ap
       classifiers=[
 		  'Programming Language :: Python',
 		  'Programming Language :: Python :: 2.7',
-		  'License :: Freeware',
+		  'License :: OSI Approved :: MIT License',
 		  'Topic :: Education',
 		  ], 
       keywords='GUI flashcard study memorizing',
