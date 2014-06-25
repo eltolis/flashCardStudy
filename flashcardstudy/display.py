@@ -3,6 +3,7 @@ import random
 import sys
 import itertools
 import timeit
+import datetime
 import sfile
 import stack
 import errors
@@ -17,7 +18,8 @@ def prompt(write, tic=None):
 				print '-' * 10
 				toc = timeit.default_timer()
 				elapsed = toc - tic
-				print "Elapsed time: %d seconds" % elapsed
+				elapsed = int(elapsed)
+				print "Elapsed time: %s h:mm:ss" % str(datetime.timedelta(seconds=elapsed))
 
 			exit(0)
 
@@ -32,7 +34,6 @@ def display(files, card_random, write, reverse, stack_random):
 	stacks.sort()
 
 	cards = [a_stack[2] for a_stack in stacks] 
-	cards.sort()
 
 	print """
 	Type 'Q' to stop anytime, RETURN to continue studying.
@@ -41,18 +42,21 @@ def display(files, card_random, write, reverse, stack_random):
 	print "random cards: %s, random stacks: %s, reverse: %s, write: %s" % (card_random, stack_random, reverse, write)
 
 	tic = timeit.default_timer()
-	prompt(write, tic)
 
 	if card_random:
 		for s in cards:
 			random.shuffle(s)
-
+	else:
+		stacks.sort()
+	
 	setup = [iter(s) for s in cards]
-	key = 0
 
+	key = 0 
+
+	prompt(write,tic)
 
 	while True:
-
+		
 		rand_key = random.randrange(0, len(setup))
 		rand_stack = setup[rand_key]
 
@@ -64,8 +68,9 @@ def display(files, card_random, write, reverse, stack_random):
 				try:
 					a_card = next(setup[key])
 				except IndexError:
-					key = 0
 					setup = [iter(s) for s in cards]
+					key = 0
+					continue
 
 		except StopIteration:
 
@@ -73,14 +78,18 @@ def display(files, card_random, write, reverse, stack_random):
 				for s in cards:
 					random.shuffle(s)
 				setup = [iter(s) for s in cards]
+				key += 1
+				prompt(write,tic)
+				continue
 
 
-			if not stack_random:
+			elif not stack_random:
 				key += 1
 				continue
 
 			else:
 				setup = [iter(s) for s in cards]
+
 
 		side1 = 1
 		side2 = 2
@@ -88,8 +97,6 @@ def display(files, card_random, write, reverse, stack_random):
 		if reverse:
 			side1 = 2
 			side2 = 1
-
-	
 
 		for a_stack in stacks:
 

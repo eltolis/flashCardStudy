@@ -19,5 +19,5 @@ def read_stack_files(stack_files):
 		contents.append(processed)
 		file.close()
 		
-	return contents 
+	return contents
 
