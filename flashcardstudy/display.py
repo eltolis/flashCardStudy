@@ -1,19 +1,22 @@
 import os
 import random
 import sys
-import timeit
 import itertools
 import sfile
 import stack
+import timeit
 
-def prompt(log):
+def prompt(write, tic=None):
 	action = raw_input("> ")
 	
 	try:
 		if action.lower() == 'q':
 			
-			if log:
+			if write:
 				print '-' * 10
+				toc = timeit.default_timer()
+				elapsed = toc - tic
+				print "Elapsed time: %d seconds" % elapsed
 
 			exit(0)
 
@@ -21,7 +24,8 @@ def prompt(log):
 		pass
 
 
-def display(files, card_random, log, reverse, stack_random):
+def display(files, card_random, write, reverse, stack_random):
+
 
 	stacks = sfile.read_stack_files(files)
 	stacks.sort()
@@ -33,9 +37,10 @@ def display(files, card_random, log, reverse, stack_random):
 	Type 'Q' to stop anytime, RETURN to continue studying.
 	"""
 	print "Your arguments:"
-	print "random cards: %s, random stacks: %s, reverse: %s, log: %s" % (card_random, stack_random, reverse, log)
+	print "random cards: %s, random stacks: %s, reverse: %s, write: %s" % (card_random, stack_random, reverse, write)
 
-	prompt(log)
+	tic = timeit.default_timer()
+	prompt(write, tic)
 
 	if card_random:
 		for s in cards:
@@ -96,6 +101,6 @@ def display(files, card_random, log, reverse, stack_random):
 		print '-' * 40,'\n'
 
 		print a_card[side1]
-		prompt(log)
+		prompt(write, tic)
 		print a_card[side2]
-		prompt(log)
+		prompt(write, tic)

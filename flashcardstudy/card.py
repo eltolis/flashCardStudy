@@ -159,7 +159,7 @@ def list_modified_card(contents, select):
 	table_card.align["Side2"] = 'l'
 
 	side1 = contents[2][select - 1][1]
-	side2 = contents[2][select - 1][1]
+	side2 = contents[2][select - 1][2]
 	display_side1 = (side1[:40] + '...') if len(side1) > 40 else side1
 	display_side2 = (side2[:40] + '...') if len(side2) > 40 else side2
 
