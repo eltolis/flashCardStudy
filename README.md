@@ -17,7 +17,7 @@ This is a standard package written in Python 2.7. Simply clone the repo, navigat
 
 The package is also available on PyPi so you can install it by using [pip](https://github.com/pypa/pip).
 
-	pip install flashCardStudy
+	pip install flashCardStudy --pre
 
 You might need to run this as _sudo_. Installation to `virtualenv` is simple too. If you do not want to install the package and just plainly use the utility, you will find the executable script in `bin/flashstudy.py`. The package contains one dependency: [PrettyTable](https://pypi.python.org/pypi/PrettyTable/0.7.2) but that should be installed automatically when going using the pip route.
 
