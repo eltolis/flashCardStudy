@@ -3,11 +3,12 @@
 This is simple command line utility aimed at anyone who wants to use memorizing technique for studying. This utility creates virtual stacks of cards, you flip the cards just as the paper flash cards. It works best for stuff like definitions or memorizing foreign words.
 flashCardStudy does not use database for saving its data but instead relies on files.
 
-## Version 1.0 
+## Version 1.0.2
 
 * fixed parser problems
 * it is possible to edit cards in existing stacks (adding, modifying, changing order and deleting)
 * reordering of stacks is now implemented
+* now correctly located on PyPi
 
 ## Installation
 
@@ -17,7 +18,7 @@ This is a standard package written in Python 2.7. Simply clone the repo, navigat
 
 The package is also available on PyPi so you can install it by using [pip](https://github.com/pypa/pip).
 
-	pip install flashCardStudy --pre
+	pip install flashCardStudy
 
 You might need to run this as _sudo_. Installation to `virtualenv` is simple too. If you do not want to install the package and just plainly use the utility, you will find the executable script in `bin/flashstudy.py`. The package contains one dependency: [PrettyTable](https://pypi.python.org/pypi/PrettyTable/0.7.2) but that should be installed automatically when going using the pip route.
 
