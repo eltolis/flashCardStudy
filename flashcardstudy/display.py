@@ -2,9 +2,10 @@ import os
 import random
 import sys
 import itertools
+import timeit
 import sfile
 import stack
-import timeit
+import errors
 
 def prompt(write, tic=None):
 	action = raw_input("> ")
@@ -88,11 +89,17 @@ def display(files, card_random, write, reverse, stack_random):
 			side1 = 2
 			side2 = 1
 
+	
+
 		for a_stack in stacks:
-			if a_card in a_stack[2]:
-				stack_name = a_stack[1] 
-				stack_number = a_stack[0]
-				stack_count = len(a_stack[2])
+
+			try:
+				if a_card in a_stack[2]:
+					stack_name = a_stack[1] 
+					stack_number = a_stack[0]
+					stack_count = len(a_stack[2])
+			except UnboundLocalError:
+				errors.id(7)
 
 		os.system('cls' if os.name == 'nt' else 'clear')
 

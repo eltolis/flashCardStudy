@@ -41,7 +41,7 @@ Edit a stack
 
 	flashstudy [filename1.stk] --edit
 
-This will launch interface for editing _filename1_ stack. You can add another cards here, as well as delete them. You can also reorder the cards if you want to have cards displayed in certain way.
+This will launch interface for editing _filename1_ stack. You can add another cards here, as well as delete them. You can also reorder the cards if you want to have cards displayed in certain way. You can *only pass one stack file* with `-e`/`--edit` argument, you can only edit one file at a time.
 
 Arguments
 =========

@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='flashCardStudy',
-    version='1.0.2',
+    version='1.0.3',
     author='comatory',
     author_email='osekdomains@gmail.com',
     packages=['flashcardstudy','tests','bin'],

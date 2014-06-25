@@ -3,12 +3,11 @@
 This is simple command line utility aimed at anyone who wants to use memorizing technique for studying. This utility creates virtual stacks of cards, you flip the cards just as the paper flash cards. It works best for stuff like definitions or memorizing foreign words.
 flashCardStudy does not use database for saving its data but instead relies on files.
 
-## Version 1.0.2
+## Version 1.0.3
 
-* fixed parser problems
-* it is possible to edit cards in existing stacks (adding, modifying, changing order and deleting)
-* reordering of stacks is now implemented
-* now correctly located on PyPi
+- fixed when the last item was displayed twice
+- fixed crash when displaying empty stack 
+- when using `-w`/`--write` argument, seconds are converted to minutes
 
 ## Installation
 
@@ -53,7 +52,7 @@ You must always use either `-d` or `-a` for session to start. You can optionally
 
 	flashstudy [filename1.stk] --edit
 
-This will launch interface for editing _filename1_ stack. You can add another cards here, as well as delete them. You can also reorder the cards if you want to have cards displayed in certain way.
+This will launch interface for editing _filename1_ stack. You can add another cards here, as well as delete them. You can also reorder the cards if you want to have cards displayed in certain way. You can *only pass one stack file* with `-e`/`--edit` argument, you can only edit one file at a time.
 
 ## Arguments
 

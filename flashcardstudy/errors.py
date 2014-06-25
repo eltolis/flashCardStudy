@@ -25,6 +25,10 @@ Invalid card ID. Try again."""
 	elif num == 6:
 		error = """
 You need to add `-d`/`--display` arg"""
+	elif num == 7:
+		error = """
+Can't display stack data. Stack has no cards or the
+file is corrupted."""
 
 	print 'Error!', error, print_help
 
