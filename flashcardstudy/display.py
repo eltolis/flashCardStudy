@@ -15,11 +15,11 @@ def prompt(write, tic=None):
 		if action.lower() == 'q':
 			
 			if write:
-				print '-' * 10
+				print '-' * 29 
 				toc = timeit.default_timer()
 				elapsed = toc - tic
 				elapsed = int(elapsed)
-				print "Elapsed time: %s h:mm:ss" % str(datetime.timedelta(seconds=elapsed))
+				print "Elapsed time: %s h:mm:ss" % str(datetime.timedelta(seconds=elapsed)), '\n'
 
 			exit(0)
 
@@ -34,6 +34,13 @@ def display(files, card_random, write, reverse, stack_random):
 	stacks.sort()
 
 	cards = [a_stack[2] for a_stack in stacks] 
+
+	for c in cards:
+		if len(c) < 1:
+			cards.remove(c)
+	
+	if len(cards) < 1:
+		errors.id(7)
 
 	print """
 	Type 'Q' to stop anytime, RETURN to continue studying.
@@ -79,7 +86,6 @@ def display(files, card_random, write, reverse, stack_random):
 					random.shuffle(s)
 				setup = [iter(s) for s in cards]
 				key += 1
-				prompt(write,tic)
 				continue
 
 

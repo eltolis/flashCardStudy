@@ -1,3 +1,5 @@
+dist/
+build/
 *.pyc
 *.stk
 *.swp
@@ -7,4 +9,6 @@
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+MANIFEST.in
+MANIFEST
 Thumbs.db

@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='flashCardStudy',
-    version='1.0.3',
+    version='1.0.4',
     author='comatory',
     author_email='osekdomains@gmail.com',
     packages=['flashcardstudy','tests','bin'],
@@ -17,9 +17,9 @@ setup(
 				  'License :: OSI Approved :: MIT License',
 				  'Topic :: Education',
 				  ], 
-    install_requires=[
-        "PrettyTable",
-    ],
+	install_requires=[
+		"PrettyTable",
+	],
 	entry_points = {
 		'console_scripts': ['flashstudy = bin.flashstudy:flashcard']
 			}

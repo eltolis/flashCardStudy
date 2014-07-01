@@ -1,3 +1,9 @@
+1.0.4
+-----
+
+- empty stack error fixed
+- when using `-r` argument, there is no longer second prompt display
+
 1.0.3
 -----
 
