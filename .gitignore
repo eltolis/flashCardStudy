@@ -3,6 +3,8 @@ build/
 *.pyc
 *.stk
 *.swp
+*.swn
+*.swo
 .DS_Store
 .DS_Store?
 ._*

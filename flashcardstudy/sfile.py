@@ -21,3 +21,7 @@ def read_stack_files(stack_files):
 		
 	return contents
 
+def save_stack_files(files, stack_index, stack_name):
+	pass
+
+

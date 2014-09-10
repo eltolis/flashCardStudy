@@ -54,7 +54,6 @@ class Helpers(object):
 
 request = Helpers()
 
-
 def requests():
 	id = request.id()
 	name = request.name()
@@ -62,9 +61,15 @@ def requests():
 
 	return id, name, cards
 
-def new_stack_file():
-	data = requests()
+def new_stack_file(gui=False, filename):
+	
+	if gui:
+		data = [10, filename, [[]]]
+	else:
+		data = requests()
+
 	a_stack = StackFile(*data)
+
 	f = open(a_stack.name + '.stk', 'wb')
 	
 	data = [a_stack.id, a_stack.name, a_stack.cards]
