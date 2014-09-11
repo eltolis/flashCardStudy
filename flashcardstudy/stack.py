@@ -61,10 +61,12 @@ def requests():
 
 	return id, name, cards
 
-def new_stack_file(gui=False, filename):
+def new_stack_file(gui=False, filename=None, fileid=None):
 	
 	if gui:
-		data = [10, filename, [[]]]
+		print filename
+		data = (7, filename,[[1,'knick','knack'],[2,'whoop','didoo']])
+		print data
 	else:
 		data = requests()
 
