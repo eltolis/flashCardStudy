@@ -1,16 +1,12 @@
 from Tkinter import * 
+import tkFont
 from bin import flashstudy
 from flashcardstudy import sfile
 from flashcardstudy import stack 
 
-# Data
-files = sfile.read_stack_files(sfile.lookup_stack_files())
-print files
-
 # Main window
 root = Tk()
 root.title("flashCardStudy")
-
 
 # Menus
 menu = Menu(root)
@@ -37,6 +33,15 @@ def refresh_stacks(files):
 	stack_browser.delete(0, END)
 	for a_stack in files:
 		stack_browser.insert(a_stack[0], a_stack[1])
+		print "Stack file detected: ", a_stack 
+
+def delete_stk_files(evt):
+	list_of_files = []
+	for index in stack_browser.curselection():
+		a_file = stack_browser.get(index)
+		list_of_files.append(a_file)
+	stack.delete_stack_file(gui=True, filenames=list_of_files)
+	refresh_stacks(refresh_files())
 
 refresh_stacks(refresh_files())
 
@@ -69,6 +74,9 @@ def selectlistbox(evt, files):
 			card_browser.delete(0, END)
 		else:
 			selected_stack = files[int(index)]
+			if len(selected_stack[2]) == 0:
+				card_browser.insert(0, "Click '+' to add cards")
+
 			for cards in selected_stack[2]:
 				card_browser.insert(cards[0], (cards[1], cards[2]))
 	except TypeError:
@@ -100,15 +108,16 @@ def binds():
 	stack_browser.bind('<Double-1>', lambda evt, arg=refresh_files():edit_window(evt, arg))
 	card_browser.bind('<Double-1>', lambda evt, arg=refresh_files():edit_card(evt, arg))
 	stack_add_button.bind('<Button-1>', edit_window)
+	stack_remove_button.bind('<Button-1>', delete_stk_files) 
 
 # Edit stacks window
 def edit_window(evt, files=None):
 
 	window = Toplevel()
 	entry_name = Entry(window)
-	entry_name.grid(row=0,column=0,in_=window, padx=10, pady=10)
+	entry_name.grid(row=0,column=0,in_=window, padx=5, pady=(2,0))
 	button_frame = Frame(window)
-	button_frame.grid(row=1, column=0, sticky=E, pady=(7,0))
+	button_frame.grid(row=1, column=0, sticky=E, pady=(7,2), padx=(0,5))
 	cancel_button = Button(button_frame, text="Cancel")
 	cancel_button.grid(row=1,column=0, in_=button_frame)
 	ok_button = Button(button_frame,text="OK")
@@ -116,8 +125,8 @@ def edit_window(evt, files=None):
 
 	def get_entry():
 		new_stack_name = str(entry_name.get())
-		stack.new_stack_file(gui=True, filename=new_stack_name)
-		#files = sfile.read_stack_files(sfile.lookup_stack_files())
+		stack_id = stack_browser.size() + 1
+		stack.new_stack_file(gui=True, filename=new_stack_name, fileid=stack_id)
 		refresh_stacks(refresh_files())
 		binds()
 
@@ -135,18 +144,34 @@ def edit_window(evt, files=None):
 
 # Edit cards window
 def edit_card(evt, files):
+
+	a_font = tkFont.Font(size=14)
+
 	w = evt.widget
+	window = Toplevel()
+	text_frame = Frame(window)
+	text_frame.grid(row=0, column=1, padx=2,pady=(2,5))
+
 	stack_browser_select = stack_browser.curselection()[0]
 	index = w.curselection()[0]
-	window = Toplevel()
-	window.title("Edit card")
 	cards = files[int(stack_browser_select)][2][int(index)][1:3]
-	entry_side1 = Entry(window)
-	entry_side1.insert(0,cards[0])
-	entry_side1.pack()
-	entry_side2 = Entry(window)
-	entry_side2.insert(0,cards[1])
-	entry_side2.pack()
+
+	side1_label = Label(text_frame,text="Side 1:")
+	side1_label.grid(row=0, column=0, sticky=N)
+	text_side1 = Text(text_frame, height=2, width=25, font=a_font)
+	text_side1.grid(row=0, column=1)
+	side2_label = Label(text_frame,text="Side 2:")
+	side2_label.grid(row=1, column=0, sticky=N)
+	text_side2 = Text(text_frame, height=2, width=25, font=a_font)
+	text_side2.grid(row=1, column=1)
+
+	if files:
+		window.title("Edit cards")
+		text_side1.insert(END,cards[0])
+		text_side2.insert(END,cards[1])
+
+	else:
+		window.title("Add cards")
 
 binds()
 root.mainloop()

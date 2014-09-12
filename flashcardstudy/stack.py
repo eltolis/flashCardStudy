@@ -64,9 +64,8 @@ def requests():
 def new_stack_file(gui=False, filename=None, fileid=None):
 	
 	if gui:
-		print filename
-		data = (7, filename,[[1,'knick','knack'],[2,'whoop','didoo']])
-		print data
+		data = (fileid, filename,[])
+		print "Added new stack: ", data
 	else:
 		data = requests()
 
@@ -77,6 +76,12 @@ def new_stack_file(gui=False, filename=None, fileid=None):
 	data = [a_stack.id, a_stack.name, a_stack.cards]
 	pickle.dump(data, f)
 	f.close()
+
+def delete_stack_file(gui=False, filenames=None):
+	if gui:
+		for file in filenames:
+			os.remove(file + '.stk')
+			print "Deleted stack: %s" % (file + '.stk')
 
 def change_stack_order(files):
 	stacks = sfile.read_stack_files(files)
