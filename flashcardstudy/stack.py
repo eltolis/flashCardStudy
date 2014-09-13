@@ -102,6 +102,19 @@ def change_stack_order(files):
 		pickle.dump(a_stack, f)
 		f.close()
 
+def renumber_stacks(files):
+	stacks = files 
+	stacks.sort()
+	count = 1
+
+	for a_stack in stacks:
+		a_stack[0] = 0
+		a_stack[0] += count
+		count += 1
+		f = open(a_stack[1] + '.stk', 'wb')
+		pickle.dump(a_stack, f)
+		f.close()
+		print "Renumbered stack /'%s/'" % a_stack[1]
 
 def list_stacks():
 	stacks = sfile.lookup_stack_files()

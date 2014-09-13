@@ -3,7 +3,6 @@ import tkFont
 from bin import flashstudy
 from flashcardstudy import sfile
 from flashcardstudy import stack 
-from flashcardstudy import card
 
 # Main window
 root = Tk()
@@ -42,6 +41,7 @@ def delete_stk_files(evt):
 		a_file = stack_browser.get(index)
 		list_of_files.append(a_file)
 	stack.delete_stack_file(gui=True, filenames=list_of_files)
+	stack.renumber_stacks(refresh_files())
 	refresh_stacks(refresh_files())
 
 refresh_stacks(refresh_files())
@@ -79,7 +79,7 @@ def selectlistbox(evt, files):
 				card_browser.insert(0, "Click '+' to add cards")
 
 			for cards in selected_stack[2]:
-				card_browser.insert(cards[0], (cards[1] + ' - ' + cards[2]))
+				card_browser.insert(cards[0], (cards[1], cards[2]))
 	except TypeError:
 		card_browser.insert(0, "Click '+' to add cards")
 
@@ -106,22 +106,19 @@ start_button = Button(text="Start").grid(row=0, column=1,in_=main_buttons)
 
 def binds():
 	stack_browser.bind('<<ListboxSelect>>', lambda evt, arg=refresh_files():selectlistbox(evt, arg))
-	stack_browser.bind('<Double-1>', lambda evt, arg=refresh_files():edit_stack(evt, arg))
-	stack_add_button.bind('<Button-1>', edit_stack)
+	stack_browser.bind('<Double-1>', lambda evt, arg=refresh_files():edit_window(evt, arg))
+	card_browser.bind('<Double-1>', lambda evt, arg=refresh_files():edit_card(evt, arg))
+	stack_add_button.bind('<Button-1>', edit_window)
 	stack_remove_button.bind('<Button-1>', delete_stk_files) 
 
-	card_browser.bind('<Double-1>', lambda evt, arg=refresh_files():edit_card(evt, files=arg))
-	card_add_button.bind('<Button-1>', lambda evt:edit_card(evt))
-
 # Edit stacks window
-def edit_stack(evt, files=None):
+def edit_window(evt, files=None):
 
 	window = Toplevel()
 	entry_name = Entry(window)
 	entry_name.grid(row=0,column=0,in_=window, padx=5, pady=(2,0))
-
 	button_frame = Frame(window)
-	button_frame.grid(row=3, column=0, sticky=E, pady=(7,2), padx=(0,5))
+	button_frame.grid(row=1, column=0, sticky=E, pady=(7,2), padx=(0,5))
 	cancel_button = Button(button_frame, text="Cancel")
 	cancel_button.grid(row=1,column=0, in_=button_frame)
 	ok_button = Button(button_frame,text="OK")
@@ -131,8 +128,10 @@ def edit_stack(evt, files=None):
 		new_stack_name = str(entry_name.get())
 		stack_id = stack_browser.size() + 1
 		stack.new_stack_file(gui=True, filename=new_stack_name, fileid=stack_id)
+		stack.renumber_stacks(refresh_files())
 		refresh_stacks(refresh_files())
 		binds()
+		window.destroy()
 
 	if files:
 		w = evt.widget
@@ -147,50 +146,42 @@ def edit_stack(evt, files=None):
 
 
 # Edit cards window
-def edit_card(evt, files=None):
-
-	window = Toplevel()
+def edit_card(evt, files):
 
 	a_font = tkFont.Font(size=14)
 
+	w = evt.widget
+	window = Toplevel()
 	entry_frame = Frame(window)
-	entry_frame.grid(row=0, column=0, padx=2,pady=(2,5))
+	entry_frame.grid(row=0, column=1, padx=2,pady=(2,5))
+
+	stack_browser_select = stack_browser.curselection()[0]
+	index = w.curselection()[0]
+	cards = files[int(stack_browser_select)][2][int(index)][1:3]
 
 	side1_label = Label(entry_frame,text="Side 1:")
 	side1_label.grid(row=0, column=0)
-	text_side1 = Entry(entry_frame) 
-	text_side1.grid(row=0, column=1)
+	card_side1 = Entry(entry_frame)
+	card_side1.grid(row=0, column=1)
 	side2_label = Label(entry_frame,text="Side 2:")
 	side2_label.grid(row=1, column=0)
-	text_side2 = Entry(entry_frame) 
-	text_side2.grid(row=1, column=1)
+	card_side2 = Entry(entry_frame)
+	card_side2.grid(row=1, column=1)
 
 	button_frame = Frame(window)
-	button_frame.grid(row=1, column=0, sticky=E, pady=(7,2), padx=(0,5))
+	button_frame.grid(row=1, column=1, sticky=E, pady=(7,2), padx=(0,5))
 	cancel_button = Button(button_frame, text="Cancel")
 	cancel_button.grid(row=1,column=0, in_=button_frame)
 	ok_button = Button(button_frame,text="OK")
 	ok_button.grid(row=1,column=1, in_=button_frame)
 
-
 	if files:
 		window.title("Edit cards")
-
-		w = evt.widget
-		index = w.curselection()[0]
-		stack_browser_select = stack_browser.curselection()[0]
-		cards = files[int(stack_browser_select)][2][int(index)][1:3]
-
-		text_side1.insert(END,cards[0])
-		text_side2.insert(END,cards[1])
+		card_side1.insert(END,cards[0])
+		card_side2.insert(END,cards[1])
 
 	else:
 		window.title("Add cards")
-
-	def get_entry():
-		side1 = text_side1.get()
-		side2 = text_side2.get()
-
 
 binds()
 root.mainloop()
