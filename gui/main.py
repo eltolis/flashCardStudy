@@ -54,6 +54,12 @@ def delete_cards(evt):
 	list_of_cards = []
 	for index in card_browser.curselection():
 		list_of_cards.append(index)
+		#print "Removing %d items" % len(list_of_cards[int(index)])
+	
+	card.delete_card(refresh_files(), gui=True, stack_index=stack_browser.curselection()[0], card_index=list_of_cards)
+	refresh_cards(refresh_files())
+	refresh_stacks(refresh_files())
+	binds()
 
 refresh_stacks(refresh_files())
 
@@ -157,6 +163,7 @@ def binds():
 	stack_add_button.bind('<Button-1>', edit_stack_window)
 	stack_remove_button.bind('<Button-1>', delete_stk_files) 
 	card_add_button.bind('<Button-1>', lambda evt:edit_card_window(evt))
+	card_remove_button.bind('<Button-1>', delete_cards)
 
 # Edit cards window
 def edit_card_window(evt, files=None):
@@ -191,6 +198,8 @@ def edit_card_window(evt, files=None):
 		print "Side two: ", cards[1]
 		card.add_card(files=files, cards=cards, index=stack_browser_select, gui=True)
 		refresh_cards(refresh_files())
+		refresh_stacks(refresh_files())
+		binds()
 		window.destroy()
 
 	if files:

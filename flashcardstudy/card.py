@@ -114,16 +114,28 @@ def change_card_order(contents):
 		renumber_card_order(contents)
 		return contents
 
-def delete_card(contents, gui=False):
-	while True:
-		try:
-			select = int(raw_input("Please select card (ID) you want to delete > "))
-			deleted_card = contents[2].remove(contents[2][select - 1])
-		except IndexError, ValueError:
-			errors.id(5,no_quit=True)
+def delete_card(contents, gui=False, stack_index=None, card_index=None):
+	if gui:
+		selected_stack = contents[int(stack_index)]
+		for item in card_index:
+			selected_stack[2].remove(selected_stack[2][int(item)])
 
-		renumber_card_order(contents)
-		return contents
+		renumber_card_order(selected_stack)
+
+		f = open(selected_stack[1] + '.stk','wb')
+		pickle.dump(selected_stack, f)
+		f.close()
+
+	else:
+		while True:
+			try:
+				select = int(raw_input("Please select card (ID) you want to delete > "))
+				deleted_card = contents[2].remove(contents[2][select - 1])
+			except IndexError, ValueError:
+				errors.id(5,no_quit=True)
+
+			renumber_card_order(contents)
+			return contents
 
 def card_editor(contents, select, side):
 	print "\nEditing card #%d, side %d" % (contents[2][select - 1][0], side)
