@@ -83,9 +83,22 @@ class Helpers(object):
 
 requests = Helpers()
 
-def add_card(files=None):
-	cards = requests.adding(files)
-	return cards
+def add_card(files=None, cards=None,index=None, gui=False):
+	if gui:
+		side1 = cards[0]
+		side2 = cards[1]
+		new_index = len(files[int(index)][2]) + 1
+		new_card = [new_index, side1, side2]
+		print "New card created: ", new_card
+		files[int(index)][2].append(new_card)
+
+		f = open(files[int(index)][1] + '.stk', 'wb')
+		pickle.dump(files[int(index)], f)
+		f.close()
+		
+	else:
+		cards = requests.adding(files)
+		return cards
 
 def change_card_order(contents):
 	while True:
@@ -101,7 +114,7 @@ def change_card_order(contents):
 		renumber_card_order(contents)
 		return contents
 
-def delete_card(contents):
+def delete_card(contents, gui=False):
 	while True:
 		try:
 			select = int(raw_input("Please select card (ID) you want to delete > "))
