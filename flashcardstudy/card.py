@@ -117,8 +117,12 @@ def change_card_order(contents):
 def delete_card(contents, gui=False, stack_index=None, card_index=None):
 	if gui:
 		selected_stack = contents[int(stack_index)]
-		for item in card_index:
-			selected_stack[2].remove(selected_stack[2][int(item)])
+		try:
+			for item in card_index[::-1]:
+				selected_stack[2].remove(selected_stack[2][int(item)])
+		except IndexError:
+			selected_stack[2].remove(selected_stack[2][0])
+
 
 		renumber_card_order(selected_stack)
 

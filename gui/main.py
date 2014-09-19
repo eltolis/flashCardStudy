@@ -7,6 +7,8 @@ from flashcardstudy import card
 
 # Main window
 root = Tk()
+root.wm_attributes("-topmost", 1)
+root.focus_force()
 root.title("flashCardStudy")
 
 # Menus
@@ -18,6 +20,8 @@ filemenu.add_command(label="New stack")
 filemenu.add_command(label="Edit stack")
 filemenu.add_separator()
 filemenu.add_command(label="Exit")
+
+card_warning = "Click '+' to add cards"
 
 # Stack browser
 stack_view = LabelFrame(root, text="Stacks")
@@ -51,6 +55,7 @@ def delete_stk_files(evt):
 	refresh_stacks(refresh_files())
 
 def delete_cards(evt):
+	stack_browser_select = stack_browser.curselection()[0]
 	list_of_cards = []
 	for index in card_browser.curselection():
 		list_of_cards.append(index)
@@ -60,6 +65,7 @@ def delete_cards(evt):
 	refresh_cards(refresh_files())
 	refresh_stacks(refresh_files())
 	binds()
+	stack_browser.selection_set(stack_browser_select)
 
 refresh_stacks(refresh_files())
 
@@ -87,6 +93,8 @@ def edit_stack_window(evt, files=None):
 	ok_button = Button(button_frame,text="OK")
 	ok_button.grid(row=1,column=1, in_=button_frame)
 
+	entry_name.focus_set()
+
 	def get_entry():
 		new_stack_name = str(entry_name.get())
 		stack_id = stack_browser.size() + 1
@@ -95,6 +103,9 @@ def edit_stack_window(evt, files=None):
 		refresh_stacks(refresh_files())
 		binds()
 		window.destroy()
+		card_browser.delete(0, END)
+		card_browser.insert(0, card_warning)
+		stack_browser.selection_set("end")
 
 	if files:
 		w = evt.widget
@@ -117,6 +128,7 @@ card_browser= Listbox(selectmode=EXTENDED, exportselection=0)
 card_browser.insert(0, "<- Select stack")
 card_browser.grid(row=0, column=0, in_=card_view, padx=3, pady=2)
 
+
 def selectlistbox(evt, files):
 	try:
 		card_browser.delete(0, END)
@@ -127,13 +139,13 @@ def selectlistbox(evt, files):
 		else:
 			selected_stack = files[int(index)]
 			if len(selected_stack[2]) == 0:
-				card_browser.insert(0, "Click '+' to add cards")
+				card_browser.insert(0, card_warning)
 				#card_browser.configure(state=DISABLED)
 
 			for cards in selected_stack[2]:
 				card_browser.insert(cards[0], (cards[1], cards[2]))
 	except TypeError:
-		card_browser.insert(0, "Click '+' to add cards")
+		card_browser.insert(0, card_warning)
 
 card_buttons = Frame(card_view)
 card_buttons.grid(row=1, column=0, pady=1, sticky=W)
@@ -184,6 +196,8 @@ def edit_card_window(evt, files=None):
 	card_side2 = Entry(entry_frame)
 	card_side2.grid(row=1, column=1)
 
+	card_side1.focus_set()
+
 	button_frame = Frame(window)
 	button_frame.grid(row=1, column=1, sticky=E, pady=(7,2), padx=(0,5))
 	cancel_button = Button(button_frame, text="Cancel")
@@ -201,6 +215,7 @@ def edit_card_window(evt, files=None):
 		refresh_stacks(refresh_files())
 		binds()
 		window.destroy()
+		stack_browser.selection_set(stack_browser_select)
 
 	if files:
 		index = card_browser.curselection()[0]
@@ -214,6 +229,5 @@ def edit_card_window(evt, files=None):
 		window.title("Add cards")
 		ok_button.bind('<Button-1>', lambda evt:add_cards(evt))
 		
-
 binds()
 root.mainloop()
