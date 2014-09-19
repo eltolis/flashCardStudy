@@ -21,6 +21,14 @@ filemenu.add_command(label="Exit")
 
 card_warning = "Click '+' to add cards"
 
+# Checker funcs
+
+def stack_sel():
+	return int(stack_browser.curselection()[0])
+
+def card_sel():
+	return int(stack_browser.curselection()[0]), int(card_browser.curselection()[0])
+
 # Stack browser
 stack_view = LabelFrame(root, text="Stacks")
 stack_view.grid(row=0, column=0, padx=5)
@@ -78,6 +86,7 @@ stack_add_button.grid(row=0, column=0, in_=stack_buttons)
 stack_remove_button = Button(text="-")
 stack_remove_button.grid(row=0, column=1, in_=stack_buttons)
 
+
 # Edit stacks window
 def edit_stack_window(evt, files=None):
 
@@ -105,12 +114,20 @@ def edit_stack_window(evt, files=None):
 		card_browser.insert(0, card_warning)
 		stack_browser.selection_set("end")
 
+	def rename_stack():
+		print "Renaming ", '"/' + refresh_files()[stack_sel()][1] + '"/ ... '
+		stack.rename_stack_name(refresh_files()[stack_sel()], entry_name.get())
+		refresh_stacks(refresh_files())
+		binds()
+		window.destroy()
+
 	if files:
 		w = evt.widget
 		index = w.curselection()[0]
 		stack_name = files[int(index)][1]
 		window.title("Edit stack "+"\""+str(stack_name)+"\"")
 		entry_name.insert(0,stack_name)
+		ok_button.configure(command=rename_stack)
 	else:
 		window.title("Add new stack")
 		new_stack_name = str(entry_name.get())
@@ -152,6 +169,7 @@ card_add_button = Button(text="+")
 card_add_button.grid(row=0, column=0, in_=card_buttons)
 card_remove_button = Button(text="-")
 card_remove_button.grid(row=0, column=1, in_=card_buttons)
+
 
 # Options
 options = LabelFrame(root, text="Options")
@@ -215,6 +233,14 @@ def edit_card_window(evt, files=None):
 		window.destroy()
 		stack_browser.selection_set(stack_browser_select)
 
+	def update_cards():
+		cards = card_side1.get(), card_side2.get()
+		print "Changing cards: ", str(refresh_files()[card_sel()[0]][2][card_sel()[1]]) + ' ... '
+		card.modify_card(refresh_files(), gui=True, cards=cards, index=card_sel())
+		refresh_cards(refresh_files())
+		binds()
+		window.destroy()
+
 	if files:
 		index = card_browser.curselection()[0]
 		cards = files[int(stack_browser_select)][2][int(index)][1:3]
@@ -222,6 +248,7 @@ def edit_card_window(evt, files=None):
 		window.title("Edit cards")
 		card_side1.insert(END,cards[0])
 		card_side2.insert(END,cards[1])
+		ok_button.configure(command=update_cards)
 
 	else:
 		window.title("Add cards")

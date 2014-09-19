@@ -148,18 +148,28 @@ def card_editor(contents, select, side):
 
 	return new_content
 
-def modify_card(contents):
-	while True:
-		try:
-			select = int(raw_input("Please select card (ID) you want to modify > "))
-			side = int(raw_input("Choose side to edit (1) or (2) > "))
-			new_content = card_editor(contents, select, side)
-			contents[2][select - 1][side] = new_content
-	
-		except IndexError, ValueError:
-			errors.id(5,no_quit=True)
+def modify_card(contents, gui=False, cards=None, index=None):
+	if gui:
+		contents[index[0]][2][index[1]][1] = cards[0]
+		contents[index[0]][2][index[1]][2] = cards[1]
+		print 'To: ' + str(contents[index[0]][2][index[1]]) 
+		f = open(contents[index[0]][1] + '.stk', 'wb')
+		pickle.dump(contents[index[0]], f)
+		f.close()
 
-		return contents 
+
+	else:
+		while True:
+			try:
+				select = int(raw_input("Please select card (ID) you want to modify > "))
+				side = int(raw_input("Choose side to edit (1) or (2) > "))
+				new_content = card_editor(contents, select, side)
+				contents[2][select - 1][side] = new_content
+		
+			except IndexError, ValueError:
+				errors.id(5,no_quit=True)
+
+			return contents 
 
 def renumber_card_order(contents):
 	for a_card in contents[2]:

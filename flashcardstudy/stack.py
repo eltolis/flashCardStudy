@@ -102,6 +102,14 @@ def change_stack_order(files):
 		pickle.dump(a_stack, f)
 		f.close()
 
+def rename_stack_name(file, new_name):
+	os.remove(file[1] + '.stk')
+	file[1] = new_name
+	f = open(new_name + '.stk', 'wb')
+	print "To: ", file[1]
+	pickle.dump(file, f)
+	f.close()
+
 def renumber_stacks(files):
 	stacks = files 
 	stacks.sort()
