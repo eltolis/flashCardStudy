@@ -7,8 +7,6 @@ from flashcardstudy import card
 
 # Main window
 root = Tk()
-root.wm_attributes("-topmost", 1)
-root.focus_force()
 root.title("flashCardStudy")
 
 # Menus
