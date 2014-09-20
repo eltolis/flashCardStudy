@@ -20,6 +20,7 @@ filemenu.add_separator()
 filemenu.add_command(label="Exit")
 
 card_warning = "Click '+' to add cards"
+stack_warning = "Click '+' to add a stack"
 
 # Checker funcs
 
@@ -29,6 +30,9 @@ def stack_sel():
 def card_sel():
 	return int(stack_browser.curselection()[0]), int(card_browser.curselection()[0])
 
+def check_stacks():
+	if stack_browser.size() == 0:
+		stack_browser.insert(0, stack_warning)
 # Stack browser
 stack_view = LabelFrame(root, text="Stacks")
 stack_view.grid(row=0, column=0, padx=5)
@@ -99,6 +103,7 @@ def edit_stack_window(evt, files=None):
 	cancel_button.grid(row=1,column=0, in_=button_frame)
 	ok_button = Button(button_frame,text="OK")
 	ok_button.grid(row=1,column=1, in_=button_frame)
+	cancel_button.configure(command=window.destroy)
 
 	entry_name.focus_set()
 
@@ -115,11 +120,13 @@ def edit_stack_window(evt, files=None):
 		stack_browser.selection_set("end")
 
 	def rename_stack():
+		former_selection = stack_sel()
 		print "Renaming ", '"/' + refresh_files()[stack_sel()][1] + '"/ ... '
 		stack.rename_stack_name(refresh_files()[stack_sel()], entry_name.get())
 		refresh_stacks(refresh_files())
 		binds()
 		window.destroy()
+		stack_browser.select_set(former_selection)
 
 	if files:
 		w = evt.widget
@@ -220,8 +227,10 @@ def edit_card_window(evt, files=None):
 	cancel_button.grid(row=1,column=0, in_=button_frame)
 	ok_button = Button(button_frame,text="OK")
 	ok_button.grid(row=1,column=1, in_=button_frame)
+	cancel_button.configure(command=window.destroy)
 
 	def add_cards(evt):
+		former_selection = stack_sel() 
 		files = refresh_files()
 		cards = card_side1.get(), card_side2.get()
 		print "Side one: ", cards[0]
@@ -234,12 +243,14 @@ def edit_card_window(evt, files=None):
 		stack_browser.selection_set(stack_browser_select)
 
 	def update_cards():
+		former_selection = stack_sel() 
 		cards = card_side1.get(), card_side2.get()
 		print "Changing cards: ", str(refresh_files()[card_sel()[0]][2][card_sel()[1]]) + ' ... '
 		card.modify_card(refresh_files(), gui=True, cards=cards, index=card_sel())
 		refresh_cards(refresh_files())
 		binds()
 		window.destroy()
+		stack_browser.select_set(former_selection)
 
 	if files:
 		index = card_browser.curselection()[0]
@@ -255,4 +266,5 @@ def edit_card_window(evt, files=None):
 		ok_button.bind('<Button-1>', lambda evt:add_cards(evt))
 		
 binds()
+check_stacks()
 root.mainloop()
