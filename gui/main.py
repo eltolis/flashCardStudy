@@ -1,5 +1,6 @@
 from Tkinter import * 
 import tkFont
+import display
 from bin import flashstudy
 from flashcardstudy import sfile
 from flashcardstudy import stack 
@@ -76,6 +77,14 @@ def delete_cards(evt):
 	refresh_stacks(refresh_files())
 	binds()
 	stack_browser.selection_set(stack_browser_select)
+
+def send_to_display(evt):
+	contents = []
+	for selected_stack in stack_browser.curselection():
+		contents.append(refresh_files()[int(selected_stack)])
+
+	contents.sort()
+	display.session(contents, random_cards.get(), random_stacks.get(), flip_cards.get())
 
 refresh_stacks(refresh_files())
 
@@ -181,15 +190,19 @@ card_remove_button.grid(row=0, column=1, in_=card_buttons)
 # Options
 options = LabelFrame(root, text="Options")
 options.grid(row=1, column=0, padx=5, pady=5, sticky=W)
+random_cards = IntVar()
+random_stacks = IntVar()
+flip_cards = IntVar()
 
-randomize_cards_checkbutton = Checkbutton(text="Randomize cards").grid(row=0, column=0, in_=options, sticky=W)
-randomize_stacks_checkbutton = Checkbutton(text="Randomize stacks").grid(row=1, column=0,in_=options, sticky=W)
-flip_cards_checkbutton = Checkbutton(text="Flip cards").grid(row=2, column=0, in_=options, sticky=W)
+randomize_cards_checkbutton = Checkbutton(text="Randomize cards", variable=random_cards).grid(row=0, column=0, in_=options, sticky=W)
+randomize_stacks_checkbutton = Checkbutton(text="Randomize stacks", variable=random_stacks).grid(row=1, column=0,in_=options, sticky=W)
+flip_cards_checkbutton = Checkbutton(text="Flip cards", variable=flip_cards).grid(row=2, column=0, in_=options, sticky=W)
 
 main_buttons = Frame(root)
 main_buttons.grid(row=1, column=1, rowspan=3, padx=5, pady=5, sticky=SE)
 help_button = Button(text="Help").grid(row=0, column=0, in_=main_buttons)
-start_button = Button(text="Start").grid(row=0, column=1,in_=main_buttons)
+start_button = Button(text="Start")
+start_button.grid(row=0, column=1,in_=main_buttons)
 
 def binds():
 	stack_browser.bind('<<ListboxSelect>>', lambda evt, arg=refresh_files():selectlistbox(evt, arg))
@@ -199,6 +212,7 @@ def binds():
 	stack_remove_button.bind('<Button-1>', delete_stk_files) 
 	card_add_button.bind('<Button-1>', lambda evt:edit_card_window(evt))
 	card_remove_button.bind('<Button-1>', delete_cards)
+	start_button.bind('<Button-1>', send_to_display)
 
 # Edit cards window
 def edit_card_window(evt, files=None):
