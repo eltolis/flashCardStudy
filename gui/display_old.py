@@ -3,6 +3,13 @@ import itertools
 
 def session(contents, randomize_cards, randomize_stacks, flip_cards):
 
+	def setup_cards():
+		cards = [stack[2] for stack in contents]
+		print cards
+		setup = [iter(stack) for stack in cards] 
+		print setup
+		return cards, setup
+
 	def end():
 		window.destroy()
 
@@ -18,7 +25,9 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards):
 				side1cont.set(pair[1])
 				flipbutton.configure(command=flip)
 			except StopIteration:
-				setup = [iter(stack) for stack in cards] 
+				pair = next(setup[0])
+				continue
+
 
 		
 	print "Starting session with these cards: ","\n", contents
@@ -57,5 +66,5 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards):
 	finishbutton = Button(button_frame, text="End", command=end)
 	finishbutton.grid(row=0,column=0, sticky=E)
 
-	cards = [stack[2] for stack in contents]
-	setup = [iter(stack) for stack in cards] 
+	cards = setup_cards()[0]
+	setup = setup_cards()[1]
