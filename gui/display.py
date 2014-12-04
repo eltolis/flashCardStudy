@@ -1,30 +1,37 @@
 from Tkinter import *
 import itertools
+from flashcardstudy.content import ContentObject 
 
 def session(contents, randomize_cards, randomize_stacks, flip_cards):
+
+	if randomize_cards == 1:
+		randomize_cards = 'random'
+
+	if randomize_stacks == 1:
+		randomize_stacks = 'randomstack'
+	
+	if flip_cards == 1:
+		flip_cards = 'reverse'
 
 	def end():
 		window.destroy()
 
 	def start():
+		side1cont.set(session.fetch())
+		flipbutton.configure(command=flip)
 
-		def flip():
-			side2cont.set(pair[2])
-			flipbutton.configure(command=start)
+	def flip():
+		side2cont.set(session.fetch())
+		flipbutton.configure(command=start)
 
-		for card in cards:
-			try:
-				pair = next(setup[0])
-				side1cont.set(pair[1])
-				flipbutton.configure(command=flip)
-			except StopIteration:
-				setup = [iter(stack) for stack in cards] 
-
+	session = ContentObject(contents, randomize_cards, randomize_stacks, flip_cards)
 		
 	print "Starting session with these cards: ","\n", contents
 	print "Random cards:",randomize_cards
 	print "Random stacks:", randomize_stacks
 	print "Flip cards:", flip_cards
+
+	print contents
 
 	window = Toplevel()
 	window.grab_set()
@@ -56,6 +63,4 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards):
 
 	finishbutton = Button(button_frame, text="End", command=end)
 	finishbutton.grid(row=0,column=0, sticky=E)
-
-	cards = [stack[2] for stack in contents]
-	setup = [iter(stack) for stack in cards] 
+	

@@ -34,6 +34,7 @@ def card_sel():
 def check_stacks():
 	if stack_browser.size() == 0:
 		stack_browser.insert(0, stack_warning)
+
 # Stack browser
 stack_view = LabelFrame(root, text="Stacks")
 stack_view.grid(row=0, column=0, padx=5)
@@ -190,9 +191,9 @@ card_remove_button.grid(row=0, column=1, in_=card_buttons)
 # Options
 options = LabelFrame(root, text="Options")
 options.grid(row=1, column=0, padx=5, pady=5, sticky=W)
-random_cards = IntVar()
-random_stacks = IntVar()
-flip_cards = IntVar()
+random_cards = IntVar() 
+random_stacks = IntVar() 
+flip_cards = IntVar() 
 
 randomize_cards_checkbutton = Checkbutton(text="Randomize cards", variable=random_cards).grid(row=0, column=0, in_=options, sticky=W)
 randomize_stacks_checkbutton = Checkbutton(text="Randomize stacks", variable=random_stacks).grid(row=1, column=0,in_=options, sticky=W)
