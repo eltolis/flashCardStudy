@@ -35,6 +35,18 @@ def check_stacks():
 	if stack_browser.size() == 0:
 		stack_browser.insert(0, stack_warning)
 
+def cb_check():
+	if wildcard.get():
+		randomize_cards_checkbutton.config(state=DISABLED)
+		randomize_stacks_checkbutton.config(state=DISABLED)
+	elif random_cards.get() or random_stacks.get():
+		wildcard_checkbutton.config(state=DISABLED)
+	else:
+		randomize_cards_checkbutton.config(state=NORMAL)
+		randomize_stacks_checkbutton.config(state=NORMAL)
+		wildcard_checkbutton.config(state=NORMAL)
+
+
 # Stack browser
 stack_view = LabelFrame(root, text="Stacks")
 stack_view.grid(row=0, column=0, padx=5)
@@ -85,7 +97,7 @@ def send_to_display(evt):
 		contents.append(refresh_files()[int(selected_stack)])
 
 	contents.sort()
-	display.session(contents, random_cards.get(), random_stacks.get(), flip_cards.get())
+	display.session(contents, random_cards.get(), random_stacks.get(), flip_cards.get(), wildcard.get())
 
 refresh_stacks(refresh_files())
 
@@ -194,11 +206,19 @@ options.grid(row=1, column=0, padx=5, pady=5, sticky=W)
 random_cards = IntVar() 
 random_stacks = IntVar() 
 flip_cards = IntVar() 
+wildcard = IntVar()
 
-randomize_cards_checkbutton = Checkbutton(text="Randomize cards", variable=random_cards).grid(row=0, column=0, in_=options, sticky=W)
-randomize_stacks_checkbutton = Checkbutton(text="Randomize stacks", variable=random_stacks).grid(row=1, column=0,in_=options, sticky=W)
-flip_cards_checkbutton = Checkbutton(text="Flip cards", variable=flip_cards).grid(row=2, column=0, in_=options, sticky=W)
+randomize_cards_checkbutton = Checkbutton(text="Randomize cards", variable=random_cards, command=cb_check)
+randomize_stacks_checkbutton = Checkbutton(text="Randomize stacks", variable=random_stacks, command=cb_check)
+wildcard_checkbutton = Checkbutton(text="Wildcard", variable=wildcard, command=cb_check)
+flip_cards_checkbutton = Checkbutton(text="Flip cards", variable=flip_cards)
 
+randomize_cards_checkbutton.grid(row=0, column=0, in_=options, sticky=W)
+randomize_stacks_checkbutton.grid(row=1, column=0,in_=options, sticky=W)
+wildcard_checkbutton.grid(row=2, column=0, in_=options, sticky=W)
+flip_cards_checkbutton.grid(row=3, column=0, in_=options, sticky=W)
+
+# Buttons
 main_buttons = Frame(root)
 main_buttons.grid(row=1, column=1, rowspan=3, padx=5, pady=5, sticky=SE)
 help_button = Button(text="Help").grid(row=0, column=0, in_=main_buttons)
@@ -283,3 +303,4 @@ def edit_card_window(evt, files=None):
 binds()
 check_stacks()
 root.mainloop()
+

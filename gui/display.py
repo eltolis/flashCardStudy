@@ -2,7 +2,7 @@ from Tkinter import *
 import itertools
 from flashcardstudy.content import ContentObject 
 
-def session(contents, randomize_cards, randomize_stacks, flip_cards):
+def session(contents, randomize_cards, randomize_stacks, flip_cards, wildcard):
 
 	if randomize_cards == 1:
 		randomize_cards = 'random'
@@ -12,6 +12,9 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards):
 	
 	if flip_cards == 1:
 		flip_cards = 'reverse'
+
+	if wildcard == 1:
+		wildcard = 'wildcard'
 
 	def end():
 		window.destroy()
@@ -24,12 +27,13 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards):
 		side2cont.set(session.fetch())
 		flipbutton.configure(command=start)
 
-	session = ContentObject(contents, randomize_cards, randomize_stacks, flip_cards)
+	session = ContentObject(contents, randomize_cards, randomize_stacks, flip_cards, wildcard)
 		
 	print "Starting session with these cards: ","\n", contents
 	print "Random cards:",randomize_cards
 	print "Random stacks:", randomize_stacks
 	print "Flip cards:", flip_cards
+	print "Wildcard:", wildcard
 
 	print contents
 

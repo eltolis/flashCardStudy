@@ -3,7 +3,6 @@ import StringIO
 import glob
 import os
 from nose.tools import *
-import mock
 import pickle
 from flashcardstudy import stack, card, errors, cliparser, stack, sfile
 
