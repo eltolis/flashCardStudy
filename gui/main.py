@@ -99,6 +99,10 @@ def send_to_display(evt):
 	contents.sort()
 	display.session(contents, random_cards.get(), random_stacks.get(), flip_cards.get(), wildcard.get())
 
+def select_all_stacks():
+	stack_browser.selection_set(0,END)
+	card_browser.delete(0,END)
+
 refresh_stacks(refresh_files())
 
 stack_browser.grid(row=0, column=0, in_=stack_view, padx=3, pady=2)
@@ -111,7 +115,8 @@ stack_add_button = Button(text="+")
 stack_add_button.grid(row=0, column=0, in_=stack_buttons)
 stack_remove_button = Button(text="-")
 stack_remove_button.grid(row=0, column=1, in_=stack_buttons)
-
+stack_sel_all_button = Button(text="All", command=select_all_stacks)
+stack_sel_all_button.grid(row=0, column=2, in_=stack_buttons, padx=(40,0))
 
 # Edit stacks window
 def edit_stack_window(evt, files=None):
@@ -172,6 +177,8 @@ card_browser= Listbox(selectmode=EXTENDED, exportselection=0)
 card_browser.insert(0, "<- Select stack")
 card_browser.grid(row=0, column=0, in_=card_view, padx=3, pady=2)
 
+def select_all_cards():
+	card_browser.selection_set(0,END)
 
 def selectlistbox(evt, files):
 	try:
@@ -198,6 +205,8 @@ card_add_button = Button(text="+")
 card_add_button.grid(row=0, column=0, in_=card_buttons)
 card_remove_button = Button(text="-")
 card_remove_button.grid(row=0, column=1, in_=card_buttons)
+card_sel_all_button = Button(text="All", command=select_all_cards)
+card_sel_all_button.grid(row=0, column=2, in_=card_buttons, padx=(40,0))
 
 
 # Options

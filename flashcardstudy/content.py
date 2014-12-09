@@ -30,28 +30,28 @@ class ContentObject():
 			self.card_id = 0
 			self.switched_stack = False
 			
-	#def generate_stack_id(self):
-		#return randrange(0,len(self.contents))
+	def generate_stack_id(self):
+		return randrange(0,len(self.contents))
 
-	#def generate_card_id(self):
-		#return randrange(0,len(self.contents[self.stack_id][2]))
+	def generate_card_id(self):
+		return randrange(0,len(self.contents[self.stack_id][2]))
 
 	def request(self):
 
 		if 'randomstack' in self.mode and not self.switched_stack:
-			self.stack_id = randrange(0,len(self.contents))
+			self.stack_id = self.generate_stack_id()
 			self.switched_stack = True
 
 		if 'random' in self.mode:
 			try:
-				self.card_id = randrange(0,len(self.contents[self.stack_id][2]))
+				self.card_id = self.generate_card_id() 
 			except ValueError:
 				self.stack_id += 1
-				self.card_id = randrange(0,len(self.contents[self.stack_id][2]))
+				self.card_id = self.generate_card_id() 
 
 		if 'wildcard' in self.mode:
-			self.stack_id = randrange(0,len(self.contents))
-			self.card_id = randrange(0,len(self.contents[self.stack_id][2]))
+			self.stack_id = self.generate_stack_id() 
+			self.card_id = self.generate_card_id()
 			self.check_contents()
 			
 		cards = self.contents[self.stack_id][2].pop(self.card_id)

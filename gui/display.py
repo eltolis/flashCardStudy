@@ -1,5 +1,4 @@
 from Tkinter import *
-import itertools
 from flashcardstudy.content import ContentObject 
 
 def session(contents, randomize_cards, randomize_stacks, flip_cards, wildcard):
@@ -20,6 +19,8 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards, wildcard):
 		window.destroy()
 
 	def start():
+		side1cont.set('' * 100)
+		side2cont.set('' * 100) 
 		side1cont.set(session.fetch())
 		flipbutton.configure(command=flip)
 
