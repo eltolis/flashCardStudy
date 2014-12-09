@@ -17,11 +17,8 @@ class ContentObject():
 		self.switched_stack = False
 
 	def check_contents(self): # checks if all cards been exhausted
-		print 'total stacks left: ', len(self.contents)
 		if 'randomstack' in self.mode or 'wildcard' in self.mode:
-			print 'check'
 			if len(self.contents[self.stack_id][2]) == 0:
-				print 'deleting -> ',self.contents[self.stack_id][1]
 				self.contents.pop(self.stack_id)
 				self.stack_id = 0
 				self.card_id = 0
@@ -32,6 +29,12 @@ class ContentObject():
 			self.stack_id = 0
 			self.card_id = 0
 			self.switched_stack = False
+			
+	#def generate_stack_id(self):
+		#return randrange(0,len(self.contents))
+
+	#def generate_card_id(self):
+		#return randrange(0,len(self.contents[self.stack_id][2]))
 
 	def request(self):
 
@@ -47,10 +50,9 @@ class ContentObject():
 				self.card_id = randrange(0,len(self.contents[self.stack_id][2]))
 
 		if 'wildcard' in self.mode:
-			self.card_id = randrange(0,len(self.contents[self.stack_id][2]))
 			self.stack_id = randrange(0,len(self.contents))
+			self.card_id = randrange(0,len(self.contents[self.stack_id][2]))
 			self.check_contents()
-			print 'generated stack: ', self.stack_id, 'card: ', self.card_id
 			
 		cards = self.contents[self.stack_id][2].pop(self.card_id)
 
