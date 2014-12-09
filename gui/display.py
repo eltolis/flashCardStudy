@@ -1,7 +1,16 @@
+import timeit
+import datetime
 from Tkinter import *
+import tkMessageBox
 from flashcardstudy.content import ContentObject 
 
+
+def time_window(session):
+	time_window = tkMessageBox.showinfo('Session', 'Session time: %.2f ' % session.get_time()) 
+
+
 def session(contents, randomize_cards, randomize_stacks, flip_cards, wildcard):
+
 
 	if randomize_cards == 1:
 		randomize_cards = 'random'
@@ -17,6 +26,7 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards, wildcard):
 
 	def end():
 		window.destroy()
+		time_window(session)
 
 	def start():
 		side1cont.set('' * 100)
@@ -29,6 +39,8 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards, wildcard):
 		flipbutton.configure(command=start)
 
 	session = ContentObject(contents, randomize_cards, randomize_stacks, flip_cards, wildcard)
+
+	tic = timeit.default_timer()
 		
 	print "Starting session with these cards: ","\n", contents
 	print "Random cards:",randomize_cards

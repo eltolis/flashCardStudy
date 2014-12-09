@@ -227,7 +227,7 @@ randomize_stacks_checkbutton.grid(row=1, column=0,in_=options, sticky=W)
 wildcard_checkbutton.grid(row=2, column=0, in_=options, sticky=W)
 flip_cards_checkbutton.grid(row=3, column=0, in_=options, sticky=W)
 
-# Buttons
+# Main Buttons
 main_buttons = Frame(root)
 main_buttons.grid(row=1, column=1, rowspan=3, padx=5, pady=5, sticky=SE)
 help_button = Button(text="Help").grid(row=0, column=0, in_=main_buttons)

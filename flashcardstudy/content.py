@@ -1,6 +1,6 @@
+import timeit
 from random import randrange
 from copy import deepcopy
-
 
 class ContentObject():
 
@@ -15,6 +15,11 @@ class ContentObject():
 		self.side2 = ''
 		self.flipped = False # determines whether to show side1 or side2
 		self.switched_stack = False
+		self.tic = timeit.default_timer() 
+
+	def get_time(self):
+		toc = timeit.default_timer()
+		return toc - self.tic
 
 	def check_contents(self): # checks if all cards been exhausted
 		if 'randomstack' in self.mode or 'wildcard' in self.mode:
