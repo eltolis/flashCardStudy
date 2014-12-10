@@ -6,7 +6,7 @@ from flashcardstudy.content import ContentObject
 
 
 def time_window(session):
-	time_window = tkMessageBox.showinfo('Session', 'Session time: %.2f ' % session.get_time()) 
+	time_window = tkMessageBox.showinfo('Session', 'Elapsed time: %s h:mm:ss ' % session.get_time()) 
 
 
 def session(contents, randomize_cards, randomize_stacks, flip_cards, wildcard):

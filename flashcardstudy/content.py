@@ -1,4 +1,5 @@
 import timeit
+import datetime
 from random import randrange
 from copy import deepcopy
 
@@ -6,7 +7,7 @@ class ContentObject():
 
 
 	def __init__(self,contents,*mode):
-		self.contents = contents
+		self.contents = contents # passed files
 		self.original = deepcopy(self.contents) # preserves original data
 		self.mode = mode # random,reverse,random stack as string
 		self.stack_id = 0
@@ -15,15 +16,17 @@ class ContentObject():
 		self.side2 = ''
 		self.flipped = False # determines whether to show side1 or side2
 		self.switched_stack = False
-		self.tic = timeit.default_timer() 
+		self.tic = timeit.default_timer() # starts counting time
 
 	def get_time(self):
-		toc = timeit.default_timer()
-		return toc - self.tic
+		toc = timeit.default_timer() # current elapsed time when called
+		time = toc - self.tic
+		time = int(time)
+		return str(datetime.timedelta(seconds=time)) # returns time as str of h:mm:ss
 
 	def check_contents(self): # checks if all cards been exhausted
 		if 'randomstack' in self.mode or 'wildcard' in self.mode:
-			if len(self.contents[self.stack_id][2]) == 0:
+			if len(self.contents[self.stack_id][2]) == 0: # check if every stack has 0 cards
 				self.contents.pop(self.stack_id)
 				self.stack_id = 0
 				self.card_id = 0
@@ -59,6 +62,7 @@ class ContentObject():
 			self.card_id = self.generate_card_id()
 			self.check_contents()
 			
+		# picks card from list
 		cards = self.contents[self.stack_id][2].pop(self.card_id)
 
 		if 'reverse' in self.mode:
@@ -69,7 +73,7 @@ class ContentObject():
 			self.side2 = cards[2]
 
 	def fetch(self):
-		print self.contents
+
 		self.check_contents()
 		if self.flipped:
 			self.flipped = False 
