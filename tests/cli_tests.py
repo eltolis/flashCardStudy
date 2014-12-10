@@ -168,11 +168,25 @@ def test_parser_with_edit_arg():
 	parser_cleanup()
 	assert_equal(cliparser.parse(['stack.stk','--edit']),[['stack.stk'],['--edit']])
 
+def test_parser_with_wildcard():
+	parser_cleanup()
+	assert_equal(cliparser.parse(['stack.stk','-d','-w']),[['stack.stk'],['-d','-w']])
+	parser_cleanup()
+	assert_equal(cliparser.parse(['-a','-w']),[[],['-a','-w']])
+	parser_cleanup()
+	assert_equal(cliparser.parse(['stack.stk', 'example.stk', '--display', '--wildcard']),[['stack.stk', 'example.stk'],['--display', '--wildcard']])
+	parser_cleanup()
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', '-d', '-r', '-w'])
+	parser_cleanup()
+	assert_raises(SystemExit, cliparser.parse, ['stack.stk', 'example.stk', '-d', '-r', '-s', '-w'])
+	parser_cleanup()
+	assert_raises(SystemExit, cliparser.parse, ['-a','-s', '-w'])
+
 def test_parser_with_all_arg():
 	parser_cleanup()
 	assert_equal(cliparser.parse(['--all']),[[],['--all']])
 	parser_cleanup()
-	assert_equal(cliparser.parse(['-a', '-r', '-s', '-v', '-w' ]), [[], ['-a', '-r', '-s', '-v', '-w']])
+	assert_equal(cliparser.parse(['-a', '-r', '-s', '-v']), [[], ['-a', '-r', '-s', '-v']])
 	parser_cleanup()
 	assert_raises(SystemExit, cliparser.parse, ['-a', '-e'])
 	parser_cleanup()
