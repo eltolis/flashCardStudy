@@ -5,6 +5,7 @@ from bin import flashstudy
 from flashcardstudy import sfile
 from flashcardstudy import stack 
 from flashcardstudy import card
+from config import ConfigFile
 
 # Main window
 root = Tk()
@@ -230,9 +231,11 @@ flip_cards_checkbutton.grid(row=3, column=0, in_=options, sticky=W)
 # Main Buttons
 main_buttons = Frame(root)
 main_buttons.grid(row=1, column=1, rowspan=3, padx=5, pady=5, sticky=SE)
-help_button = Button(text="Help").grid(row=0, column=0, in_=main_buttons)
+help_button = Button(text="?").grid(row=0, column=0, in_=main_buttons)
+settings_button = Button(text="Settings")
+settings_button.grid(row=0, column=1, in_=main_buttons)
 start_button = Button(text="Start")
-start_button.grid(row=0, column=1,in_=main_buttons)
+start_button.grid(row=0, column=2,in_=main_buttons)
 
 def binds():
 	stack_browser.bind('<<ListboxSelect>>', lambda evt, arg=refresh_files():selectlistbox(evt, arg))
@@ -308,8 +311,15 @@ def edit_card_window(evt, files=None):
 	else:
 		window.title("Add cards")
 		ok_button.bind('<Button-1>', lambda evt:add_cards(evt))
+
+# Check conf file
+dummyfile = ConfigFile()
+dummyfile.check_conf_file()
 		
 binds()
 check_stacks()
+root.resizable(0,0)
+root.update()
+root.minsize(root.winfo_width(), root.winfo_height())
 root.mainloop()
 

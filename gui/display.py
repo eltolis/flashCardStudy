@@ -50,8 +50,8 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards, wildcard):
 
 	print contents
 
+
 	window = Toplevel()
-	window.grab_set()
 	window.title("Session")
 
 	card_frame = Frame(window)
@@ -77,7 +77,9 @@ def session(contents, randomize_cards, randomize_stacks, flip_cards, wildcard):
 
 	flipbutton = Button(button_frame, text="Flip", command=start)
 	flipbutton.grid(row=0, column=2)
+	flipbutton.bind('<r>', start)
 
 	finishbutton = Button(button_frame, text="End", command=end)
 	finishbutton.grid(row=0,column=0, sticky=E)
 	
+
