@@ -1,3 +1,4 @@
+import os
 from Tkinter import * 
 import tkFont
 import display
@@ -5,7 +6,10 @@ from bin import flashstudy
 from flashcardstudy import sfile
 from flashcardstudy import stack 
 from flashcardstudy import card
+import config
+from config import check_conf_file
 from config import ConfigFile
+
 
 # Main window
 root = Tk()
@@ -313,9 +317,21 @@ def edit_card_window(evt, files=None):
 		ok_button.bind('<Button-1>', lambda evt:add_cards(evt))
 
 # Check conf file
-dummyfile = ConfigFile()
-dummyfile.check_conf_file()
+try:
+	if check_conf_file():
+		print "conf file DETECTED"
+		pass
+	else:
+		print "conf file NOT DETECTED, creating ..."
+		conf_file = ConfigFile()
+		conf_file.create_conf_files()
+except IOError:
+	print "error detecting conf file, make sure you can read your ~ (home) folder"
 		
+default_path = config.read_conf_file()
+config.check_defaultdir()
+os.chdir(default_path)
+
 binds()
 check_stacks()
 root.resizable(0,0)
