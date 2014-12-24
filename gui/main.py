@@ -11,6 +11,28 @@ from config import check_conf_file
 from config import ConfigFile
 
 
+# Check conf file
+def get_default_path():
+	return config.read_conf_file()
+
+try:
+	if not check_conf_file():
+		print "conf file NOT DETECTED, creating ..."
+		conf_file = ConfigFile()
+		conf_file.create_conf_files()
+except IOError:
+	print "error detecting conf file, make sure you can read your ~ (home) folder"
+
+print "conf file DETECTED"
+		
+default_path = get_default_path() 
+print "default path read: ", default_path
+#os.chdir('/')
+config.check_defaultdir(default_path)
+print "checked default dir"
+os.chdir(default_path)
+print "changed working dir to: ", default_path
+
 # Main window
 root = Tk()
 root.title("flashCardStudy")
@@ -59,7 +81,7 @@ stack_view.grid(row=0, column=0, padx=5)
 stack_browser = Listbox(selectmode=EXTENDED, activestyle="dotbox", exportselection=0)
 
 def refresh_files():
-	files = sfile.read_stack_files(sfile.lookup_stack_files())
+	files = sfile.read_stack_files(sfile.lookup_stack_files(dir=get_default_path()))
 	files.sort()
 	return files
 
@@ -315,22 +337,6 @@ def edit_card_window(evt, files=None):
 	else:
 		window.title("Add cards")
 		ok_button.bind('<Button-1>', lambda evt:add_cards(evt))
-
-# Check conf file
-try:
-	if check_conf_file():
-		print "conf file DETECTED"
-		pass
-	else:
-		print "conf file NOT DETECTED, creating ..."
-		conf_file = ConfigFile()
-		conf_file.create_conf_files()
-except IOError:
-	print "error detecting conf file, make sure you can read your ~ (home) folder"
-		
-default_path = config.read_conf_file()
-config.check_defaultdir()
-os.chdir(default_path)
 
 binds()
 check_stacks()

@@ -71,7 +71,8 @@ def new_stack_file(gui=False, filename=None, fileid=None):
 
 	a_stack = StackFile(*data)
 
-	f = open(a_stack.name + '.stk', 'wb')
+	#os.chmod(a_stack.name + '.stk', 0777)
+	f = open(a_stack.name + '.stk', 'wb+')
 	
 	data = [a_stack.id, a_stack.name, a_stack.cards]
 	pickle.dump(data, f)

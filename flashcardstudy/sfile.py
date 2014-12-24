@@ -1,7 +1,12 @@
+import os
 import glob
 import pickle
 
-def lookup_stack_files():
+def lookup_stack_files(dir=None):
+	if dir:
+		#os.chdir('/')
+		os.chdir(dir)
+
 	stack_files = glob.glob('*.stk')
 	return stack_files
 
