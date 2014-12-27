@@ -7,6 +7,7 @@ def settings_window():
 
 home = os.path.expanduser("~")
 conf_file_name = '.flashstudyrc'
+sys_separator = os.sep
 
 def check_conf_file():
 	path = os.path.join(home, conf_file_name)
@@ -27,6 +28,7 @@ def check_defaultdir(path):
 	# this is where the problem is
 	# if conf file changed, creates blank dir
 	# cant detect dir correctly when switched back
+	# check escape chars
 	if not os.path.exists(path):
 		try:
 			os.makedirs(path, 0777)
@@ -41,7 +43,7 @@ class ConfigFile():
 
 	def __init__(self):
 		self.name = conf_file_name 
-		self.defaultdir = home + '/flashcards/' 
+		self.defaultdir = os.path.join(home, 'flashcards' + sys_separator) 
 
 	def create_conf_files(self):
 		conf_file = open(os.path.join(home, self.name), 'w')
