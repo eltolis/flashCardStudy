@@ -1,5 +1,6 @@
 dist/
 build/
+venv/
 *.pyc
 *.stk
 *.swp

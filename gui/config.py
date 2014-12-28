@@ -1,53 +1,60 @@
 import os
-from Tkinter import *
-import tkMessageBox
+import ConfigParser
+from appdirs import *
 
-def settings_window():
-	window = Toplevel()
+appauthor = "Ondrej Synacek"
+appname = "flashCardStudy"
+conf_file = 'flashcardstudy.conf'
+separator = os.sep
 
-home = os.path.expanduser("~")
-conf_file_name = '.flashstudyrc'
-sys_separator = os.sep
+def default_directory():
+	return user_data_dir(appname, appauthor)
 
 def check_conf_file():
-	path = os.path.join(home, conf_file_name)
-	print """ check_conf_file
-	""", path
-	return os.path.exists(path)
+	return os.path.exists(os.path.join(default_directory(), conf_file))
 
-def read_conf_file():
-	readfile = open(os.path.join(home, conf_file_name), 'r')
-	print "opening file", readfile
-	defaultdir = readfile.readline()
-	print "read def dir: ", defaultdir[15:]
-	return defaultdir[15:]
-	readfile.close()
+def check_datadir():
+	datadir = read_conf_file(conf_file)[0]
+	if not os.path.exists(datadir):
+		print "data dir does not exist, creating..."
+		os.makedirs(datadir, 0777)
 
-def check_defaultdir(path):
-	print "checking path -> PATH:",path, "IS?",  os.path.exists(path)
-	# this is where the problem is
-	# if conf file changed, creates blank dir
-	# cant detect dir correctly when switched back
-	# check escape chars
-	if not os.path.exists(path):
-		try:
-			os.makedirs(path, 0777)
-			print "creating dir at: ", path
-		except OSError:
-			print 'path exists'
-			pass
-	else:
-		pass
+	return datadir
 
-class ConfigFile():
+def read_conf_file(conf_file):
+	print "reading conf_file"
+	try:
+		values = []
+		path_to_conf_file = os.path.join(default_directory(), conf_file) 
+		print path_to_conf_file
+		conf_file = ConfigParser.SafeConfigParser()
+		conf_file.read(path_to_conf_file)
+
+		for a_section in conf_file.sections():
+			print "detected section: ",a_section
+			for name, val in conf_file.items(a_section):
+				print "reading pairs", name, val
+				values.append(val)
+
+		print "list of values: ", values
+		return values
+
+	except IOError:
+		print "you don't have permission to read: ", check_conf_file()
+
+
+class ConfigurationFile():
 
 	def __init__(self):
-		self.name = conf_file_name 
-		self.defaultdir = os.path.join(home, 'flashcards' + sys_separator) 
+		self.filename = conf_file
+		self.defaultdir = default_directory()
+		self.datadirname = 'flashcards'
+		self.datadir = self.defaultdir + separator + self.datadirname + separator
 
-	def create_conf_files(self):
-		conf_file = open(os.path.join(home, self.name), 'w')
-		print "created conf file: ", conf_file
-		conf_file.write('DEFAULT_FOLDER='+self.defaultdir)
-		conf_file.close()
-
+	def write_datadir(self):
+		configurations = ConfigParser.ConfigParser()
+		configurations.add_section("user_settings")
+		configurations.set("user_settings", "flashcards_path", self.datadir)
+		f = open(os.path.join(self.defaultdir, self.filename), 'w+')
+		configurations.write(f)
+		f.close()

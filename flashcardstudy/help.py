@@ -52,10 +52,11 @@ def gethelp():
 
 def author():
 	print"""
-	2014 comatory
-	web: comatory.github.io
+	2014 Ondrej Synacek 
+	web: https://github.com/comatory/flashCardStudy
 	twitter: @cmdspacenet
 
-	Thanks to Luke Maurits for his module PrettyTable.
-
+	Thanks to: 
+	Luke Maurits - prettytable
+	ActiveState - appdirs
 	"""

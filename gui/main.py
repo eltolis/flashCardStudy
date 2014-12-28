@@ -7,32 +7,33 @@ from flashcardstudy import sfile
 from flashcardstudy import stack 
 from flashcardstudy import card
 import config
-from config import check_conf_file
-from config import ConfigFile
+from config import default_directory, check_conf_file, check_datadir, ConfigurationFile
 
 
-# Check conf file
+# Check & create conf file
+def check_user_data():
+	try:
+		if not check_conf_file():
+			print "conf file doesn't exist"
+			conf_file = ConfigurationFile()
+			os.makedirs(conf_file.defaultdir, 0777)
+			f = open(os.path.join(conf_file.defaultdir, conf_file.filename), 'w')
+			f.close()
+			print "conf file created: ", conf_file
+			conf_file.write_datadir()
+			print "data dir written:", conf_file.datadir
+		else:
+			print "conf file exists!"
+	except IOError:
+		print "you don't have permission to read target folder"
+
+check_user_data()
+
+# Reads data directory for flashcards
 def get_default_path():
-	return config.read_conf_file()
-
-try:
-	if not check_conf_file():
-		print "conf file NOT DETECTED, creating ..."
-		conf_file = ConfigFile()
-		conf_file.create_conf_files()
-except IOError:
-	print "error detecting conf file, make sure you can read your ~ (home) folder"
-
-print "conf file DETECTED"
-		
-default_path = get_default_path() 
-print "default path read: ", default_path
-#os.chdir('/')
-config.check_defaultdir(default_path)
-print "checked default dir"
-os.chdir(default_path)
-print "changed working dir to: ", default_path
-
+	print "user dir retrieved"
+	return check_datadir()
+	
 # Main window
 root = Tk()
 root.title("flashCardStudy")
