@@ -9,7 +9,6 @@ from flashcardstudy import card
 import config
 from config import default_directory, check_conf_file, check_datadir, ConfigurationFile
 
-
 # Check & create conf file
 def check_user_data():
 	try:
@@ -38,15 +37,33 @@ def get_default_path():
 root = Tk()
 root.title("flashCardStudy")
 
+# Stack reorder icons
+icon_up = PhotoImage(file='up.gif')
+icon_down = PhotoImage(file='down.gif')
+
 # Menus
 menu = Menu(root)
 root.config(menu=menu)
 filemenu = Menu(menu)
+
 menu.add_cascade(label="File", menu=filemenu)
 filemenu.add_command(label="New stack")
 filemenu.add_command(label="Edit stack")
 filemenu.add_separator()
 filemenu.add_command(label="Exit")
+
+editmenu = Menu(menu)
+menu.add_cascade(label="Edit", menu=editmenu)
+editmenu.add_command(label="Add card")
+editmenu.add_command(label="Edit card")
+
+helpmenu = Menu(menu)
+menu.add_cascade(label="Help", menu=helpmenu)
+helpmenu.add_command(label="Get help")
+helpmenu.add_command(label="Website")
+helpmenu.add_separator()
+helpmenu.add_command(label="About")
+
 
 card_warning = "Click '+' to add cards"
 stack_warning = "Click '+' to add a stack"
@@ -131,6 +148,21 @@ def select_all_stacks():
 	stack_browser.selection_set(0,END)
 	card_browser.delete(0,END)
 
+def move_stack_up():
+    new_selection = stack_sel() - 1
+    stack.move_stack_gui(refresh_files(),stack_sel())
+    refresh_stacks(refresh_files())
+    stack_browser.activate(new_selection)
+    stack_browser.selection_set(new_selection)
+
+
+def move_stack_down():
+    new_selection = stack_sel() + 1
+    stack.move_stack_gui(refresh_files(), stack_sel(), up=False)
+    refresh_stacks(refresh_files())
+    stack_browser.activate(new_selection)
+    stack_browser.selection_set(new_selection)
+
 refresh_stacks(refresh_files())
 
 stack_browser.grid(row=0, column=0, in_=stack_view, padx=3, pady=2)
@@ -143,8 +175,12 @@ stack_add_button = Button(text="+")
 stack_add_button.grid(row=0, column=0, in_=stack_buttons)
 stack_remove_button = Button(text="-")
 stack_remove_button.grid(row=0, column=1, in_=stack_buttons)
+stack_move_up_button = Button(image = icon_up, command=move_stack_up)
+stack_move_up_button.grid(row=0, column=2, in_=stack_buttons)
+stack_move_down_button = Button(image = icon_down, command=move_stack_down)
+stack_move_down_button.grid(row=0, column=3, in_=stack_buttons)
 stack_sel_all_button = Button(text="All", command=select_all_stacks)
-stack_sel_all_button.grid(row=0, column=2, in_=stack_buttons, padx=(40,0))
+stack_sel_all_button.grid(row=0, column=4, in_=stack_buttons, sticky=E)
 
 # Edit stacks window
 def edit_stack_window(evt, files=None):
@@ -219,7 +255,6 @@ def selectlistbox(evt, files):
 			selected_stack = files[int(index)]
 			if len(selected_stack[2]) == 0:
 				card_browser.insert(0, card_warning)
-				#card_browser.configure(state=DISABLED)
 
 			for cards in selected_stack[2]:
 				card_browser.insert(cards[0], (cards[1], cards[2]))
@@ -233,8 +268,12 @@ card_add_button = Button(text="+")
 card_add_button.grid(row=0, column=0, in_=card_buttons)
 card_remove_button = Button(text="-")
 card_remove_button.grid(row=0, column=1, in_=card_buttons)
+card_move_up_button = Button(image=icon_up)
+card_move_up_button.grid(row=0, column=2, in_=card_buttons)
+card_move_down_button = Button(image=icon_down)
+card_move_down_button.grid(row=0, column=3, in_=card_buttons)
 card_sel_all_button = Button(text="All", command=select_all_cards)
-card_sel_all_button.grid(row=0, column=2, in_=card_buttons, padx=(40,0))
+card_sel_all_button.grid(row=0, column=4, in_=card_buttons, sticky=E)
 
 
 # Options
@@ -259,10 +298,8 @@ flip_cards_checkbutton.grid(row=3, column=0, in_=options, sticky=W)
 main_buttons = Frame(root)
 main_buttons.grid(row=1, column=1, rowspan=3, padx=5, pady=5, sticky=SE)
 help_button = Button(text="?").grid(row=0, column=0, in_=main_buttons)
-settings_button = Button(text="Settings")
-settings_button.grid(row=0, column=1, in_=main_buttons)
 start_button = Button(text="Start")
-start_button.grid(row=0, column=2,in_=main_buttons)
+start_button.grid(row=0, column=1,in_=main_buttons)
 
 def binds():
 	stack_browser.bind('<<ListboxSelect>>', lambda evt, arg=refresh_files():selectlistbox(evt, arg))

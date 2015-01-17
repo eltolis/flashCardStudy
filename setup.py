@@ -19,7 +19,7 @@ setup(
 				  'Topic :: Education',
 				  ], 
 	install_requires=[
-		"PrettyTable",
+		"PrettyTable","appdirs","ConfigParser"
 	],
 	entry_points = {
 		'console_scripts': ['flashstudy = bin.flashstudy:flashcard']

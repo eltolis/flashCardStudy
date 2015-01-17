@@ -103,6 +103,7 @@ def change_stack_order(files):
 		pickle.dump(a_stack, f)
 		f.close()
 
+
 def rename_stack_name(file, new_name):
 	os.remove(file[1] + '.stk')
 	file[1] = new_name
@@ -144,3 +145,25 @@ def list_stacks():
 		table.add_row([stack[0],stackname, len(stack[2]), display_cards[0:4]])
 	
 	print '\n', table.get_string(sortby="Stack ID")
+
+def move_stack_gui(stacks, index, up=True):
+        print 'old stack order', stacks
+	stacks.sort()
+	selected_stack = stacks.pop(index)
+
+        if up:
+            new_position = index - 1
+        else:
+            new_position = index + 1
+	stacks.insert(new_position, selected_stack)
+
+        print 'new stack order', stacks
+
+	for a_stack in stacks:
+		a_stack[0] = stacks.index(a_stack) + 1
+		f = open(a_stack[1] + '.stk', 'wb')
+		pickle.dump(a_stack, f)
+		f.close()
+
+        renumber_stacks(stacks)
+
