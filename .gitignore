@@ -1,6 +1,7 @@
 dist/
 build/
 venv/
+flashCardStudy.egg-info/
 *.pyc
 *.stk
 *.swp

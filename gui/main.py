@@ -152,6 +152,7 @@ def move_stack_up():
     new_selection = stack_sel() - 1
     stack.move_stack_gui(refresh_files(),stack_sel())
     refresh_stacks(refresh_files())
+    binds()
     stack_browser.activate(new_selection)
     stack_browser.selection_set(new_selection)
 
@@ -160,6 +161,7 @@ def move_stack_down():
     new_selection = stack_sel() + 1
     stack.move_stack_gui(refresh_files(), stack_sel(), up=False)
     refresh_stacks(refresh_files())
+    binds()
     stack_browser.activate(new_selection)
     stack_browser.selection_set(new_selection)
 
