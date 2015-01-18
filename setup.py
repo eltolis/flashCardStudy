@@ -1,9 +1,10 @@
 from distutils.core import setup
 import setuptools
+import os
 
 setup(
     name='flashCardStudy',
-    version='1.0.4',
+    version='1.0.5',
     author='comatory',
     author_email='osekdomains@gmail.com',
     packages=['flashcardstudy','tests','bin'],
@@ -23,5 +24,6 @@ setup(
 	],
 	entry_points = {
 		'console_scripts': ['flashstudy = bin.flashstudy:flashcard']
-			}
+			},
+        data_files=[('images', [os.path.join('gui','down.gif'), os.path.join('gui','up.gif')])]
 )

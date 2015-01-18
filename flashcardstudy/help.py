@@ -14,7 +14,7 @@ def gethelp():
 	-r, --random: Will display cards in random order.
 	-s, --stack: Jumps between stacks randomly. 
 	-v, --reverse: Shows side two of card(s) first.
-	-w, --write: Will display time log when the session is over. 
+	-w, --wildcard: Jumps between stacks AND cards in randomly. 
 
 		Example: `python flashcard.py mystack.stk -d -r`
 
@@ -25,10 +25,10 @@ def gethelp():
 	-a, --all: Automatically passess all stack files in current dir. Use
 		instead of `-d`. You can combine this with optional args.
 	
-		Example: `python flashcard.py -a -r -s`
+		Example: `python flashcard.py -a -w`
 
-		Will display all stacks in current dir in random order, stacks
-		and cards are also shuffled.
+		Will display all stacks in current dir in random order, program
+                would be jumping randomly between stacks and cards.
 
 	General arguments	
 	-----------------
@@ -48,11 +48,17 @@ def gethelp():
 	-------------
 	You can combine `-e` or `--edit` with only single stack file. It is
 	used to edit given stack file.
+
+        GUI mode
+        --------
+        When using arg `--gui`, you will be presented with graphical version
+        of the program. GUI mode keeps all stacks in its own system folder (see
+        `help` in the help menu for more info.)
 """
 
 def author():
 	print"""
-	2014 Ondrej Synacek 
+	2015 Ondrej Synacek 
 	web: https://github.com/comatory/flashCardStudy
 	twitter: @cmdspacenet
 
