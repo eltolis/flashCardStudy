@@ -1,9 +1,8 @@
-from setuptools import setup
-import os
+from setuptools import setup, find_packages
 
 setup(
     name='flashCardStudy',
-    version='1.0.5',
+    version='1.0.5b',
     author='Ondrej Synacek',
     author_email='osekdomains@gmail.com',
     packages=['flashcardstudy','tests','bin','gui'],
