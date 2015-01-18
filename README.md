@@ -5,7 +5,7 @@ You can group virtual flash cards to stacks. These stacks are actual files that 
 CLI part reads any stacks / stack files in current directory. These files have `.stk` extension and you can select which ones to load.
 GUI part uses a default folder on your system to store the files.
 
-## Version 1.0.5
+## Version 1.0.6
 
 - graphical user interface now available with `-gui` argument
 - recreated the core module (`content`) for displaying data

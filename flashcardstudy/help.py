@@ -59,7 +59,7 @@ def gethelp():
 def author_data():
         data = {
                 'year': '2015',
-                'version': '1.0.5',
+                'version': '1.0.6',
                 'devname': 'Ondrej Synacek',
                 'web': 'https://github.com/comatory/flashCardStudy',
                 'twitter': '@ondrejsynacek',
