@@ -56,13 +56,20 @@ def gethelp():
         `help` in the help menu for more info.)
 """
 
-def author():
-	print"""
-	2015 Ondrej Synacek 
-	web: https://github.com/comatory/flashCardStudy
-	twitter: @cmdspacenet
+def author_data():
+        data = {
+                'year': '2015',
+                'version': '1.0.5',
+                'devname': 'Ondrej Synacek',
+                'web': 'https://github.com/comatory/flashCardStudy',
+                'twitter': '@ondrejsynacek',
+                'thanks': 'Luke Maurits (PrettyTable), ActiveState (appdirs)'
+}
 
-	Thanks to: 
-	Luke Maurits - prettytable
-	ActiveState - appdirs
-	"""
+        return data
+
+def author():
+        data = author_data()
+        print '\n', 21 * '-' 
+        print data['devname'], '-', data['year'], '\n', 'web: ', data['web'], '\n','twitter: ', data['twitter']
+        print '\n', 'Thanks:','\n', data['thanks'],'\n'

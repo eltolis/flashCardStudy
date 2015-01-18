@@ -1,5 +1,4 @@
-from distutils.core import setup
-import setuptools
+from setuptools import setup
 import os
 
 setup(
@@ -24,6 +23,5 @@ setup(
 	],
 	entry_points = {
 		'console_scripts': ['flashstudy = bin.flashstudy:flashcard']
-			},
-        data_files=[('images', [os.path.join('gui','down.gif'), os.path.join('gui','up.gif')])]
+			}
 )

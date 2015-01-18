@@ -2,6 +2,7 @@ import os
 from Tkinter import * 
 import tkFont
 import display
+import about
 from flashcardstudy import sfile
 from flashcardstudy import stack 
 from flashcardstudy import card
@@ -41,36 +42,17 @@ def flashCardStudyGUI():
     root.title("flashCardStudy")
 
     # Stack reorder icons
-    icon_up = PhotoImage(file=os.path.join(os.pardir,'gui','up.gif'))
-    icon_down = PhotoImage(file=os.path.join(os.pardir,'gui','down.gif'))
+    icon_up_base64 = '''\
+        R0lGODlhEAAQAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAAQABAAAAIflI+pywfQ
+0ovuQWpvy3PzyHVKKErkQlpjqhmsSsVRAQA7
+'''
+    icon_down_base64 = '''\
+        R0lGODlhEAAQAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAAQABAAAAIdlI+pq+AP
+XYqx0bcuYJpTZnygOGJgaJ6CpKLtCxcAOw==
+'''
 
-    # Menus
-    menu = Menu(root)
-    root.config(menu=menu)
-    filemenu = Menu(menu)
-
-    menu.add_cascade(label="File", menu=filemenu)
-    filemenu.add_command(label="New stack")
-    filemenu.add_command(label="Edit stack")
-    filemenu.add_separator()
-    filemenu.add_command(label="Exit")
-
-    editmenu = Menu(menu)
-    menu.add_cascade(label="Edit", menu=editmenu)
-    editmenu.add_command(label="Add card")
-    editmenu.add_command(label="Edit card")
-    editmenu.add_command(label="Move stack up")
-    editmenu.add_command(label="Move stack down")
-    editmenu.add_command(label="Move card up")
-    editmenu.add_command(label="Move card down")
-
-    helpmenu = Menu(menu)
-    menu.add_cascade(label="Help", menu=helpmenu)
-    helpmenu.add_command(label="Get help")
-    helpmenu.add_command(label="Website")
-    helpmenu.add_separator()
-    helpmenu.add_command(label="About")
-
+    icon_up = PhotoImage(data=icon_up_base64)
+    icon_down = PhotoImage(data=icon_down_base64) 
 
     card_warning = "Click '+' to add cards"
     stack_warning = "Click '+' to add a stack"
@@ -400,6 +382,26 @@ def flashCardStudyGUI():
             else:
                     window.title("Add cards")
                     ok_button.bind('<Button-1>', lambda evt:add_cards(evt))
+
+
+    def quit_program():
+        root.destroy()
+
+    # Menus
+    menu = Menu(root)
+    root.config(menu=menu)
+    filemenu = Menu(menu)
+
+    menu.add_cascade(label="File", menu=filemenu)
+    filemenu.add_command(label="Exit", command=quit_program)
+
+    helpmenu = Menu(menu)
+    menu.add_cascade(label="Help", menu=helpmenu)
+    helpmenu.add_command(label="Get help")
+    helpmenu.add_command(label="Website")
+    helpmenu.add_separator()
+    helpmenu.add_command(label="About", command=about.about_window)
+
 
     binds()
     check_stacks()
