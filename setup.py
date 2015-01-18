@@ -6,7 +6,7 @@ setup(
     version='1.0.5',
     author='Ondrej Synacek',
     author_email='osekdomains@gmail.com',
-    packages=['flashcardstudy','tests','bin'],
+    packages=['flashcardstudy','tests','bin','gui'],
     scripts=['bin/flashstudy.py'],
     url='https://github.com/comatory/flashCardStudy',
     license='LICENSE.txt',
