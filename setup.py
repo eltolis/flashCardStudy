@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='flashCardStudy',
-    version='1.0.5b',
+    version='1.0.5.1',
     author='Ondrej Synacek',
     author_email='osekdomains@gmail.com',
     packages=['flashcardstudy','tests','bin','gui'],
