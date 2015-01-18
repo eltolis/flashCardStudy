@@ -175,6 +175,23 @@ def renumber_card_order(contents):
 	for a_card in contents[2]:
 		a_card[0] = contents[2].index(a_card) + 1
 
+def move_card_gui(stacks, stack_index, card_index, up=True):
+
+        selected_card = stacks[stack_index][2].pop(card_index)
+
+        if up:
+            new_position = card_index - 1
+        else:
+            new_position = card_index + 1
+
+        stacks[stack_index][2].insert(new_position, selected_card)
+
+        renumber_card_order(stacks[stack_index])
+
+        f = open(stacks[stack_index][1] + '.stk','wb')
+        pickle.dump(stacks[stack_index], f)
+        f.close()
+
 def list_card_contents(files):
 	contents = sfile.read_stack_files(files)
 

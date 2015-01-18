@@ -56,6 +56,10 @@ editmenu = Menu(menu)
 menu.add_cascade(label="Edit", menu=editmenu)
 editmenu.add_command(label="Add card")
 editmenu.add_command(label="Edit card")
+editmenu.add_command(label="Move stack up")
+editmenu.add_command(label="Move stack down")
+editmenu.add_command(label="Move card up")
+editmenu.add_command(label="Move card down")
 
 helpmenu = Menu(menu)
 menu.add_cascade(label="Help", menu=helpmenu)
@@ -263,6 +267,22 @@ def selectlistbox(evt, files):
 	except TypeError:
 		card_browser.insert(0, card_warning)
 
+def move_card_up():
+        new_selection = card_sel()[1] - 1 
+        card.move_card_gui(refresh_files(), card_sel()[0], card_sel()[1])
+        refresh_cards(refresh_files())
+        binds()
+        card_browser.selection_set(new_selection)
+        card_browser.activate(new_selection)
+
+def move_card_down():
+        new_selection = card_sel()[1] + 1 
+        card.move_card_gui(refresh_files(), card_sel()[0], card_sel()[1], up=False)
+        refresh_cards(refresh_files())
+        binds()
+        card_browser.selection_set(new_selection)
+        card_browser.activate(new_selection)
+
 card_buttons = Frame(card_view)
 card_buttons.grid(row=1, column=0, pady=1, sticky=W)
 
@@ -270,9 +290,9 @@ card_add_button = Button(text="+")
 card_add_button.grid(row=0, column=0, in_=card_buttons)
 card_remove_button = Button(text="-")
 card_remove_button.grid(row=0, column=1, in_=card_buttons)
-card_move_up_button = Button(image=icon_up)
+card_move_up_button = Button(image=icon_up, command=move_card_up)
 card_move_up_button.grid(row=0, column=2, in_=card_buttons)
-card_move_down_button = Button(image=icon_down)
+card_move_down_button = Button(image=icon_down, command=move_card_down)
 card_move_down_button.grid(row=0, column=3, in_=card_buttons)
 card_sel_all_button = Button(text="All", command=select_all_cards)
 card_sel_all_button.grid(row=0, column=4, in_=card_buttons, sticky=E)
