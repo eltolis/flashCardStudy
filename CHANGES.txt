@@ -1,3 +1,13 @@
+1.0.5
+-----
+- graphical user interface now available with `-gui` argument
+- recreated the core module (`content`) for displaying data
+- argument `-w` == `--wildcard`, this jumps between stacks
+  and cards randomly at the same time
+- `--write` was deprecated, now logs every time
+- new module dependencies: appdirs
+
+
 1.0.4
 -----
 

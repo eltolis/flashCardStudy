@@ -7,6 +7,7 @@ from flashcardstudy import sfile
 from flashcardstudy import stack 
 from flashcardstudy import card
 import config
+from about import open_website
 from config import default_directory, check_conf_file, check_datadir, ConfigurationFile
 
 ### GUI FUNC
@@ -304,7 +305,6 @@ XYqx0bcuYJpTZnygOGJgaJ6CpKLtCxcAOw==
     # Main Buttons
     main_buttons = Frame(root)
     main_buttons.grid(row=1, column=1, rowspan=3, padx=5, pady=5, sticky=SE)
-    help_button = Button(text="?").grid(row=0, column=0, in_=main_buttons)
     start_button = Button(text="Start")
     start_button.grid(row=0, column=1,in_=main_buttons)
 
@@ -397,8 +397,7 @@ XYqx0bcuYJpTZnygOGJgaJ6CpKLtCxcAOw==
 
     helpmenu = Menu(menu)
     menu.add_cascade(label="Help", menu=helpmenu)
-    helpmenu.add_command(label="Get help")
-    helpmenu.add_command(label="Website")
+    helpmenu.add_command(label="Website", command=lambda evt=None: open_website(evt))
     helpmenu.add_separator()
     helpmenu.add_command(label="About", command=about.about_window)
 

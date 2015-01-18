@@ -4,13 +4,13 @@ import os
 setup(
     name='flashCardStudy',
     version='1.0.5',
-    author='comatory',
+    author='Ondrej Synacek',
     author_email='osekdomains@gmail.com',
     packages=['flashcardstudy','tests','bin'],
     scripts=['bin/flashstudy.py'],
     url='https://github.com/comatory/flashCardStudy',
     license='LICENSE.txt',
-    description='CLI-based utility for memorizing and studying',
+    description='multi-platform GUI and CLI based program for memorizing and studying',
     long_description=open('README.txt').read(),
 	classifiers=[
 				  'Programming Language :: Python',

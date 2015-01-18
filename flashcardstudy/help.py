@@ -12,7 +12,7 @@ def gethelp():
 
 	Optional arguments:
 	-r, --random: Will display cards in random order.
-	-s, --stack: Jumps between stacks randomly. 
+	-s, --stack: Next stack will be randomly selected. 
 	-v, --reverse: Shows side two of card(s) first.
 	-w, --wildcard: Jumps between stacks AND cards in randomly. 
 
