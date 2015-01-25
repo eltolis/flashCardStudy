@@ -1,3 +1,7 @@
+![GUI](http://cmdspace.net/flashCardStudy/screenshot_flashCardStudy.png)
+
+
+
 # flashCardStudy
 
 Multi-platform command-line and GUI program for helping you study. You create your own flash cards and flip them to memorize words, definitions or whatever else you need.
@@ -7,7 +11,7 @@ GUI part uses a default folder on your system to store the files.
 
 ## Version 1.0.6
 
-- graphical user interface now available with `-gui` argument
+- graphical user interface now available with `--gui` argument
 - recreated the core module (`content`) for displaying data
 - argument `-w` == `--wildcard`, this jumps between stacks
   and cards randomly at the same time
